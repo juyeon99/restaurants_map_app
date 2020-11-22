@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">projectI2</string>
+    <string name="restaurant_details">Restaurant Details</string>
+    <string name="name">Name:</string>
+    <string name="address">Address:</string>
+    <string name="gps_coords">GPS coords:</string>
+    <string name="inspections_list">Inspections List</string>
+    <string name="history_of_inspections">History of Inspections</string>
+    <string name="inspection_date">Inspection Date:</string>
+    <string name="inspection_type">Inspection Type:</string>
+    <string name="hazard_level">Hazard Level</string>
+    <string name="critical_issues">Critical Issues:</string>
+    <string name="non_critical_issues">Non-Critical Issues:</string>
+    <string name="hazred_level">Hazred level:</string>
+    <string name="str_restaurant_name">Restaurant Name</string>
+    <string name="str_num_issues"># of Issues found</string>
+    <string name="str_haz_level">Hazard Level</string>
+    <string name="str_how_long_ago">How long ago</string>
+    <string name="str_recent_inspection_report">------Recent Inspection Report------</string>
+    <string name="back">back</string>
+    <string name="show_lists">Show Lists</string>
+
+
+</resources>

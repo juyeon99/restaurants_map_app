@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/icon4inspectionList"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+
+        android:contentDescription="TODO" />
+
+    <TextView
+        android:id="@+id/nonCritical"
+        android:layout_toRightOf="@+id/icon4inspectionList"
+        android:layout_marginLeft="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text="#non-critical issue found:" />
+
+    <TextView
+        android:id="@+id/critical"
+        android:layout_width="158dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/nonCritical"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_toRightOf="@+id/icon4inspectionList"
+
+
+        android:text="#critical issue found:" />
+
+    <TextView
+        android:id="@+id/howLongAgo"
+        android:layout_width="158dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/critical"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_toRightOf="@+id/icon4inspectionList"
+        android:text="Date:" />
+
+    <TextView
+        android:id="@+id/hazardLevel4inspectionList"
+
+        android:layout_width="156dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/howLongAgo"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_toRightOf="@+id/icon4inspectionList"
+
+
+        android:text="@string/hazred_level" />
+
+
+</RelativeLayout>

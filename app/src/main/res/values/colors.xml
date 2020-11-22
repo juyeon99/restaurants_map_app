@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#6200EE</color>
+    <color name="colorPrimaryDark">#3700B3</color>
+    <color name="colorAccent">#03DAC5</color>
+    <color name="colorLightGray">#919191</color>
+    <color name="colorDangerRed">#ff1100</color>
+    <color name="colorModerateOrange">#ff9340</color>
+    <color name="lowLime">#26bd00</color>
+    <color name="colorWhitishOrange">#fad5a7</color>
+    <color name="colorWhitishGreen">#bcfaa7</color>
+    <color name="colorPink">#ffabb0</color>
+    <color name="colorHazardless">#101e2b</color>
+    <color name="colorWhite">#ffffff</color>
+    <color name="red">#FF0000</color> <!--红色 -->
+    <color name="orange">#FFA500</color> <!--橙色 -->
+    <color name="seagreen">#2E8B57</color> <!--海绿色 -->
+
+</resources>
