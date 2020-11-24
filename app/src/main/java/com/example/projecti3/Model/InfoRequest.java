@@ -182,20 +182,22 @@ public class InfoRequest extends AsyncTask<String, String, String> {
 
     public int checkForMissing(Context context) {
         int count = 0;
-        boolean containR = false;
-        boolean containI = false;
+
         File[] allFiles = getFilesFromDownload(context);
+
         for (File file : allFiles) {
             String fileName = file.getName();
-            if (fileName.contains("restaurants_itr1") && !containR) {
-                count++;
-                containR = true;
+            boolean containR = fileName.contains("restaurants_itr1");
+            boolean containI = fileName.contains("inspectionreports_itr1");
+
+            if (!containR) {
+                count = 1;
             }
-            if(fileName.contains("inspectionreports_itr1") && !containI) {
-                count++;
-                containI = true;
+            if (!containI) {
+                count = 2;
             }
-            if (containI && containR) {
+            if (!containI && !containR ) {
+                count = 3;
                 break;
             }
         }
