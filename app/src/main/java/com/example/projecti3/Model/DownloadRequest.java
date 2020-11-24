@@ -12,8 +12,8 @@ import android.os.Environment;
 public class DownloadRequest {
 
     public static final String RESTARAUNT_URL = "https://data.surrey.ca/api/3/action/package_show?id=restaurants";
-
     public static final String INSPECTION_URL = "https://data.surrey.ca/api/3/action/package_show?id=fraser-health-restaurant-inspection-reports";
+
 
     private Context mContext;
     private String date;

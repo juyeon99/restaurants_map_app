@@ -211,14 +211,20 @@ public class MapsActivity extends AppCompatActivity {
 
                 //this tag is the index of a shorted restaurant list
                 //gMap.addMarker(options).setTag(i);
-                gMap.setOnCameraIdleListener(clusterManager);
-                gMap.setOnMarkerClickListener(clusterManager);
+
                 MyItem myItem = new MyItem(res.getLatitude(), res.getLongitude(), res.getName(), snippet,i);
 
                 clusterManager.addItem(myItem);
-                clusterManager.cluster();
-                clusterManager.setRenderer(new MarkerClusterRenderer(this, gMap, clusterManager));
+
+
             }
+            gMap.setOnCameraIdleListener(clusterManager);
+            gMap.setOnMarkerClickListener(clusterManager);
+            clusterManager.cluster();
+            clusterManager.setRenderer(new MarkerClusterRenderer(this, gMap, clusterManager));
+
+
+
             //show the pop-up info when click
 
             gMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {

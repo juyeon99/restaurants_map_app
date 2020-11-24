@@ -85,11 +85,28 @@ public class MainActivity extends AppCompatActivity {
         if (availableUpdate) {
             handler.postDelayed(this::checkForUpdate, TIME_OUT);
         } else {
+            fixMissingDownloads();
             handler.postDelayed(this::startNextActivity, TIME_OUT);
 
         }
         //handler.postDelayed(this::checkForUpdate, TIME_OUT);
     }
+
+    private void fixMissingDownloads() {
+        InfoRequest irFixer;
+        irFixer =  new InfoRequest(getApplicationContext(), true);
+        //irFixer
+        int howManyMissing = irFixer.checkForMissing(getApplicationContext());
+        if(howManyMissing == 1) {
+            irFixer.execute(InfoRequest.RESTARAUNT_URL);
+        } else if(howManyMissing == 2) {
+            irFixer.execute(InfoRequest.INSPECTION_URL);
+        } else if (howManyMissing == 3) {
+            irFixer.execute(InfoRequest.RESTARAUNT_URL);
+            irFixer.execute(InfoRequest.INSPECTION_URL);
+        }
+    }
+
 
     private void getJSONData(boolean downloadCSV, int chosenDownload) {
         if(downloadCSV == true) {

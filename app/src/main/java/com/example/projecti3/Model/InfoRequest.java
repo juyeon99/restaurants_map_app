@@ -140,6 +140,7 @@ public class InfoRequest extends AsyncTask<String, String, String> {
                 SaveState.getInstance(mContext).saveData(SingletonRestaurantManager.getInstance().getStoreDataKey(),downloader);
                 //saveData(, downloader, null);
             }
+
 //            date = lastMod;
             //restoreData(uri);
 //            saveData(uri,date, null);
@@ -179,7 +180,27 @@ public class InfoRequest extends AsyncTask<String, String, String> {
 
     }
 
-
+    public int checkForMissing(Context context) {
+        int count = 0;
+        boolean containR = false;
+        boolean containI = false;
+        File[] allFiles = getFilesFromDownload(context);
+        for (File file : allFiles) {
+            String fileName = file.getName();
+            if (fileName.contains("restaurants_itr1") && !containR) {
+                count++;
+                containR = true;
+            }
+            if(fileName.contains("inspectionreports_itr1") && !containI) {
+                count++;
+                containI = true;
+            }
+            if (containI && containR) {
+                break;
+            }
+        }
+        return count;
+    }
 
 
 
