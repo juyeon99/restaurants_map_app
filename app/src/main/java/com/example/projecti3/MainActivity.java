@@ -16,6 +16,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.projecti3.Model.DownloadRequest;
+import com.example.projecti3.Model.InfoRequest;
+import com.example.projecti3.Model.Inspection;
+import com.example.projecti3.Model.Restaurant;
+import com.example.projecti3.Model.SaveState;
+import com.example.projecti3.Model.SingletonInspectionManager;
+import com.example.projecti3.Model.SingletonRestaurantManager;
+import com.example.projecti3.UI.MapsActivity;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -29,15 +38,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
-
-import com.example.projecti3.Model.DownloadRequest;
-import com.example.projecti3.Model.InfoRequest;
-import com.example.projecti3.Model.Inspection;
-import com.example.projecti3.Model.Restaurant;
-import com.example.projecti3.Model.SaveState;
-import com.example.projecti3.Model.SingletonInspectionManager;
-import com.example.projecti3.Model.SingletonRestaurantManager;
-import com.example.projecti3.UI.MapsActivity;
 
 /**
  * Main activity --> displays welcome screen and then after 3.5 seconds it automatically switches to RestaurantList
@@ -53,12 +53,16 @@ public class MainActivity extends AppCompatActivity {
     private long tStart;
     private int counter = 0;
     boolean bufferRest = false;
+
     private String downloadRestarauntCSVLink;
     private String downloadInspectionCSVLink;
+
     private Boolean availableUpdate;
     private Boolean firstRun;
+
     private DownloadRequest dr1;
     private DownloadRequest dr2;
+
     Inspection inspection;
     Restaurant restaurant;
     SingletonRestaurantManager manager;
@@ -443,6 +447,9 @@ public class MainActivity extends AppCompatActivity {
                 manager = SingletonRestaurantManager.getInstance();
 
                 restaurant = new Restaurant();
+
+                restaurant.setFavStatus("0");
+
                 if(token.length > trackingNum) {
                     restaurant.setTrackingNum(token[trackingNum].replaceAll("\"", ""));
                 }
@@ -454,14 +461,12 @@ public class MainActivity extends AppCompatActivity {
                     restaurant.setAddress(token[address].replaceAll("\"", ""));
                 }
 
-
                 if(token.length > latitude && token[latitude].matches("[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)")) {
                     restaurant.setLatitude(Float.parseFloat(token[latitude]));
                 }
                 if(token.length > longitude && token[longitude].matches("[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)")) {
                     restaurant.setLongitude(Float.parseFloat(token[longitude]));
                 }
-
 
                 manager.add(restaurant);
             }
