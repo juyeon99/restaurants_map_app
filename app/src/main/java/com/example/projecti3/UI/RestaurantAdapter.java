@@ -76,19 +76,21 @@ public class RestaurantAdapter extends ArrayAdapter<RecentRestaurant> implements
     Filter filter=new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
-
+            //create a temp restaurant
             List<RecentRestaurant> filteredList = new ArrayList<>();
-
+            //when the input is empty, we resee all the resaturants list
             if (constraint == null || constraint.length() == 0) {
                 filteredList.addAll(objectListAll);
             } else {
+                //search all the resaturant list
+                //we find the one's name with the same order of inputs
                 for (RecentRestaurant restaurant: objectListAll) {
                     if (restaurant.getName().toLowerCase().contains(constraint.toString().toLowerCase())) {
                         filteredList.add(restaurant);
                     }
                 }
             }
-
+            //create the resurn value
             FilterResults filterResults = new FilterResults();
             filterResults.values = filteredList;
             return filterResults;
@@ -96,6 +98,7 @@ public class RestaurantAdapter extends ArrayAdapter<RecentRestaurant> implements
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
+            //UI behaviors
             objectList.clear();
             objectList.addAll((Collection<? extends RecentRestaurant>) results.values);
             notifyDataSetChanged();

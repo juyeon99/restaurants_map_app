@@ -86,8 +86,7 @@ public class RestaurantList extends AppCompatActivity {
         SearchView searchView=findViewById(R.id.searchRL);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public boolean onQueryTextSubmit(String query) {
-
+            public boolean onQueryTextSubmit(String query){
                 RestaurantList.this.restaurantAdapter.getFilter().filter(query);
                 return false;
             }
