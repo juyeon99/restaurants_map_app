@@ -5,6 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -12,20 +14,27 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import com.example.projecti3.R;
 
 // 1. Display list of all restaurants
 // Adapter of the ListView for displaying all the lists on the first page
-public class RestaurantAdapter extends ArrayAdapter<RecentRestaurant> {
+public class RestaurantAdapter extends ArrayAdapter<RecentRestaurant> implements Filterable {
     private Context mContext;
     private int mResource;
+    List<RecentRestaurant> objectList;
+    List<RecentRestaurant> objectListAll;
 
     public RestaurantAdapter(@NonNull Context context, int resource, @NonNull List<RecentRestaurant> object) {
         super(context, resource, object);
         this.mContext = context;
         this.mResource = resource;
+        this.objectList=object;
+        objectListAll=new ArrayList<>();
+        objectListAll.addAll(objectList);
     }
 
     @NonNull
@@ -59,4 +68,37 @@ public class RestaurantAdapter extends ArrayAdapter<RecentRestaurant> {
         }
         return convertView;
     }
+    //iteration 3
+    //Tutorial from https://youtu.be/CTvzoVtKoJ8
+    public Filter getFilter(){
+        return filter;
+    }
+    Filter filter=new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+
+            List<RecentRestaurant> filteredList = new ArrayList<>();
+
+            if (constraint == null || constraint.length() == 0) {
+                filteredList.addAll(objectListAll);
+            } else {
+                for (RecentRestaurant restaurant: objectListAll) {
+                    if (restaurant.getName().toLowerCase().contains(constraint.toString().toLowerCase())) {
+                        filteredList.add(restaurant);
+                    }
+                }
+            }
+
+            FilterResults filterResults = new FilterResults();
+            filterResults.values = filteredList;
+            return filterResults;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            objectList.clear();
+            objectList.addAll((Collection<? extends RecentRestaurant>) results.values);
+            notifyDataSetChanged();
+        }
+    };
 }

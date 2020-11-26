@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.SearchView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -49,7 +50,7 @@ import com.example.projecti3.R;
 public class RestaurantList extends AppCompatActivity {
 
     ListView listView;
-
+    RestaurantAdapter restaurantAdapter;
     Restaurant restaurant = new Restaurant();
     Inspection inspection = new Inspection();
 
@@ -78,6 +79,22 @@ public class RestaurantList extends AppCompatActivity {
                 //intent.putExtra("fromMap:",-1);
                 RestaurantList.this.startActivityForResult(intent,1);
 
+            }
+        });
+        //iteration 3 search
+        //Tutorial from:https://youtu.be/CTvzoVtKoJ8
+        SearchView searchView=findViewById(R.id.searchRL);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+
+                RestaurantList.this.restaurantAdapter.getFilter().filter(query);
+                return false;
+            }
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                RestaurantList.this.restaurantAdapter.getFilter().filter(newText);
+                return false;
             }
         });
     }
@@ -200,7 +217,7 @@ public class RestaurantList extends AppCompatActivity {
             arrayList.add(new RecentRestaurant(name, image, numIssues, hazardIcon, hazardLevel, date));
         }
 
-        RestaurantAdapter restaurantAdapter = new RestaurantAdapter(this, R.layout.list_row, arrayList);
+        restaurantAdapter = new RestaurantAdapter(this, R.layout.list_row, arrayList);
         listView.setAdapter(restaurantAdapter);
     }
 
