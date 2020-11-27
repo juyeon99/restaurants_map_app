@@ -21,8 +21,12 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
+// https://youtu.be/CTvzoVtKoJ8 searching filter
+// https://www.youtube.com/watch?v=iWYsBDCGhGw SearchView
+
 /**
  *    Helps to edit the clustered markers' icons (by hazard level)
+ *    Helps to search on the map to show only the markers that contains what user searched
  */
 
 public class MarkerClusterRenderer extends DefaultClusterRenderer<MyItem>{
@@ -63,8 +67,6 @@ public class MarkerClusterRenderer extends DefaultClusterRenderer<MyItem>{
         //marker.showInfoWindow();
     }
 
-    //iteration 3
-    //Tutorial from https://youtu.be/CTvzoVtKoJ8
     public Filter getFilter(){
         return filter;
     }
