@@ -83,6 +83,10 @@ public class MapsActivity extends AppCompatActivity {
     private MarkerClusterRenderer renderer;
     private List<MyItem> myItemList=new ArrayList<>();
 
+    private SearchView searchView;
+    SingletonRestaurantManager manager;
+    List<Restaurant> sortedRestaurantList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -113,6 +117,8 @@ public class MapsActivity extends AppCompatActivity {
         }
 
         list = restaurant.getAllInspectionList();
+        manager = SingletonRestaurantManager.getInstance();
+        sortedRestaurantList = manager.sortAlphabetically();
 
         // Check Permission
         if (ActivityCompat.checkSelfPermission(MapsActivity.this,
@@ -145,6 +151,7 @@ public class MapsActivity extends AppCompatActivity {
             }
         });
     }
+    */
 
     private void getCurrentLocation() {
         // Initialize task location
