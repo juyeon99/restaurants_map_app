@@ -92,6 +92,8 @@ public class RestaurantList extends AppCompatActivity {
             }
             @Override
             public boolean onQueryTextChange(String newText) {
+                //although in the email, prof Jack said, he will assume to see the result after press enter,
+                //it is nicer to see the changes will user typing
                 RestaurantList.this.restaurantAdapter.getFilter().filter(newText);
                 return false;
             }

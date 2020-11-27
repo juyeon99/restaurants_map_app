@@ -10,13 +10,9 @@ import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.SearchView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -38,6 +34,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.maps.android.clustering.ClusterItem;
 import com.google.maps.android.clustering.ClusterManager;
 
 import java.util.ArrayList;
@@ -83,6 +80,8 @@ public class MapsActivity extends AppCompatActivity {
     private ClusterManager<MyItem> clusterManager;
     LocationRequest locationRequest;
     Marker userLocationMarker;
+    private MarkerClusterRenderer renderer;
+    private List<MyItem> myItemList=new ArrayList<>();
 
     private SearchView searchView;
     SingletonRestaurantManager manager;
@@ -134,85 +133,23 @@ public class MapsActivity extends AppCompatActivity {
         }
         //this is for when we use gps in the restaurant detail to call this map
         startGps(this.getIntent());
-
-        searchView = (SearchView) findViewById(R.id.searchView);
+        //iteration 3 search
+        //Tutorial from:https://youtu.be/CTvzoVtKoJ8
+        SearchView searchView=findViewById(R.id.SearchMap);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public boolean onQueryTextSubmit(String query) {
-                String location = searchView.getQuery().toString();
-                List<Restaurant> restaurantLists = new ArrayList<>();
-
-                if (location != null || !location.equals("")) {
-                    for (Restaurant r : sortedRestaurantList) {
-                        if (r.getName().contains(location)) {
-                            List<Inspection> orderedList = r.getAllInspection();
-                            helperOrdering(orderedList);
-                            if (orderedList.get(0).getHazardLevel().equals("Low")
-                                    && orderedList.get(0).getViolationString().size() <= 5) {
-                                restaurantLists.add(r);
-                            }
-                        }
-                    }
-
-
-                }
-
+            public boolean onQueryTextSubmit(String query){
+                MapsActivity.this.renderer.getFilter().filter(query);
                 return false;
             }
-
             @Override
             public boolean onQueryTextChange(String newText) {
-
+                //although in the email, prof Jack said, he will assume to see the result after press enter,
+                //it is nicer to see the changes will user typing
+                MapsActivity.this.renderer.getFilter().filter(newText);
                 return false;
             }
         });
-    }
-
-    /*
-    private void init() {
-        searchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
-                if(actionId == EditorInfo.IME_ACTION_SEARCH
-                        || actionId == EditorInfo.IME_ACTION_DONE
-                        || keyEvent.getAction() == KeyEvent.ACTION_DOWN
-                        || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER){
-
-                    //execute the method for searching
-                    geoLocate();
-                }
-                return false;
-            }
-        });
-    }
-
-    private void geoLocate(){
-        String searchString = searchText.getText().toString();
-
-        List<Restaurant> restaurantLists = new ArrayList<>();
-
-        for (Restaurant r : sortedRestaurantList) {
-            if (r.getName().contains(searchString)) {
-                List<Inspection> orderedList = r.getAllInspection();
-                helperOrdering(orderedList);
-                if (orderedList.get(0).getHazardLevel().equals("Low")
-                        && orderedList.get(0).getViolationString().size() <= 5) {
-                    restaurantLists.add(r);
-                }
-            }
-        }
-
-        if (restaurantLists.size() > 0) {
-            displayRestaurants(restaurantLists);
-        }
-
-
-//        if(restaurantLists.size() > 0){
-//            Restaurant restaurant = list.get(0);
-//            Log.d(TAG, "Found a location");
-//            //Toast.makeText(this, address.toString(), Toast.LENGTH_SHORT).show();
-//            moveCamera(new LatLng(restaurant.getLatitude(), restaurant.getLongitude()), DEFAULT_ZOOM);
-//        }
     }
     */
 
@@ -304,18 +241,15 @@ public class MapsActivity extends AppCompatActivity {
                 //gMap.addMarker(options).setTag(i);
 
                 MyItem myItem = new MyItem(res.getLatitude(), res.getLongitude(), res.getName(), snippet,i);
-
-                clusterManager.addItem(myItem);
-
-
+                myItemList.add(myItem);
+              // clusterManager.addItem(myItem);
             }
+            clusterManager.addItems(myItemList);
             gMap.setOnCameraIdleListener(clusterManager);
             gMap.setOnMarkerClickListener(clusterManager);
             clusterManager.cluster();
-            clusterManager.setRenderer(new MarkerClusterRenderer(this, gMap, clusterManager));
-
-
-
+            renderer=new MarkerClusterRenderer(MapsActivity.this, gMap, clusterManager);
+            clusterManager.setRenderer(renderer);
             //show the pop-up info when click
 
             gMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
