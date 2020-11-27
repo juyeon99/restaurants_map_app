@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -83,9 +84,9 @@ public class MapsActivity extends AppCompatActivity {
     LocationRequest locationRequest;
     Marker userLocationMarker;
 
-    private EditText searchText;
-    SingletonRestaurantManager manager = SingletonRestaurantManager.getInstance();
-    List<Restaurant> sortedRestaurantList = manager.sortAlphabetically();
+    private SearchView searchView;
+    SingletonRestaurantManager manager;
+    List<Restaurant> sortedRestaurantList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,6 +118,8 @@ public class MapsActivity extends AppCompatActivity {
         }
 
         list = restaurant.getAllInspectionList();
+        manager = SingletonRestaurantManager.getInstance();
+        sortedRestaurantList = manager.sortAlphabetically();
 
         // Check Permission
         if (ActivityCompat.checkSelfPermission(MapsActivity.this,
@@ -131,8 +134,41 @@ public class MapsActivity extends AppCompatActivity {
         }
         //this is for when we use gps in the restaurant detail to call this map
         startGps(this.getIntent());
+
+        searchView = (SearchView) findViewById(R.id.searchView);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                String location = searchView.getQuery().toString();
+                List<Restaurant> restaurantLists = new ArrayList<>();
+
+                if (location != null || !location.equals("")) {
+                    for (Restaurant r : sortedRestaurantList) {
+                        if (r.getName().contains(location)) {
+                            List<Inspection> orderedList = r.getAllInspection();
+                            helperOrdering(orderedList);
+                            if (orderedList.get(0).getHazardLevel().equals("Low")
+                                    && orderedList.get(0).getViolationString().size() <= 5) {
+                                restaurantLists.add(r);
+                            }
+                        }
+                    }
+
+
+                }
+
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+
+                return false;
+            }
+        });
     }
 
+    /*
     private void init() {
         searchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -170,8 +206,6 @@ public class MapsActivity extends AppCompatActivity {
             displayRestaurants(restaurantLists);
         }
 
-        // hide;
-
 
 //        if(restaurantLists.size() > 0){
 //            Restaurant restaurant = list.get(0);
@@ -180,6 +214,7 @@ public class MapsActivity extends AppCompatActivity {
 //            moveCamera(new LatLng(restaurant.getLatitude(), restaurant.getLongitude()), DEFAULT_ZOOM);
 //        }
     }
+    */
 
     private void getCurrentLocation() {
         // Initialize task location
@@ -208,9 +243,7 @@ public class MapsActivity extends AppCompatActivity {
                                 return;
                             }
                             gMap.setMyLocationEnabled(true);
-                            //init();
                             displayRestaurants();
-                            init();
                         }
                     });
                 }
