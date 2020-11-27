@@ -10,8 +10,11 @@ import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -125,6 +128,54 @@ public class MapsActivity extends AppCompatActivity {
         startGps(this.getIntent());
     }
 
+    private void init() {
+        searchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+                if(actionId == EditorInfo.IME_ACTION_SEARCH
+                        || actionId == EditorInfo.IME_ACTION_DONE
+                        || keyEvent.getAction() == KeyEvent.ACTION_DOWN
+                        || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER){
+
+                    //execute the method for searching
+                    geoLocate();
+                }
+                return false;
+            }
+        });
+    }
+
+    private void geoLocate(){
+        String searchString = searchText.getText().toString();
+
+        List<Restaurant> restaurantLists = new ArrayList<>();
+
+        for (Restaurant r : sortedRestaurantList) {
+            if (r.getName().contains(searchString)) {
+                List<Inspection> orderedList = r.getAllInspection();
+                helperOrdering(orderedList);
+                if (orderedList.get(0).getHazardLevel().equals("Low")
+                        && orderedList.get(0).getViolationString().size() <= 5) {
+                    restaurantLists.add(r);
+                }
+            }
+        }
+
+        if (restaurantLists.size() > 0) {
+            displayRestaurants(restaurantLists);
+        }
+
+        // hide;
+
+
+//        if(restaurantLists.size() > 0){
+//            Restaurant restaurant = list.get(0);
+//            Log.d(TAG, "Found a location");
+//            //Toast.makeText(this, address.toString(), Toast.LENGTH_SHORT).show();
+//            moveCamera(new LatLng(restaurant.getLatitude(), restaurant.getLongitude()), DEFAULT_ZOOM);
+//        }
+    }
+
     private void getCurrentLocation() {
         // Initialize task location
         @SuppressLint("MissingPermission") Task<Location> task = client.getLastLocation();
@@ -152,7 +203,9 @@ public class MapsActivity extends AppCompatActivity {
                                 return;
                             }
                             gMap.setMyLocationEnabled(true);
+                            //init();
                             displayRestaurants();
+                            init();
                         }
                     });
                 }
