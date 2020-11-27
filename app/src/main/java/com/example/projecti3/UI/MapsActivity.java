@@ -14,6 +14,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -81,6 +82,10 @@ public class MapsActivity extends AppCompatActivity {
     private ClusterManager<MyItem> clusterManager;
     LocationRequest locationRequest;
     Marker userLocationMarker;
+
+    private EditText searchText;
+    SingletonRestaurantManager manager = SingletonRestaurantManager.getInstance();
+    List<Restaurant> sortedRestaurantList = manager.sortAlphabetically();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
