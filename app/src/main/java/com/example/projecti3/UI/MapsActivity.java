@@ -81,6 +81,8 @@ public class MapsActivity extends AppCompatActivity {
     LocationRequest locationRequest;
     Marker userLocationMarker;
     private MarkerClusterRenderer renderer;
+    private List<MyItem> myItemList=new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -142,10 +144,6 @@ public class MapsActivity extends AppCompatActivity {
                 return false;
             }
         });
-
-
-
-
     }
 
     private void getCurrentLocation() {
@@ -236,16 +234,15 @@ public class MapsActivity extends AppCompatActivity {
                 //gMap.addMarker(options).setTag(i);
 
                 MyItem myItem = new MyItem(res.getLatitude(), res.getLongitude(), res.getName(), snippet,i);
-                clusterManager.addItem(myItem);
+                myItemList.add(myItem);
+              // clusterManager.addItem(myItem);
             }
+            clusterManager.addItems(myItemList);
             gMap.setOnCameraIdleListener(clusterManager);
             gMap.setOnMarkerClickListener(clusterManager);
             clusterManager.cluster();
             renderer=new MarkerClusterRenderer(MapsActivity.this, gMap, clusterManager);
             clusterManager.setRenderer(renderer);
-
-
-
             //show the pop-up info when click
 
             gMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {

@@ -10,27 +10,31 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.maps.android.clustering.Cluster;
 import com.google.maps.android.clustering.ClusterItem;
 import com.google.maps.android.clustering.ClusterManager;
 import com.google.maps.android.clustering.view.DefaultClusterRenderer;
 
 import com.example.projecti3.R;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 /**
  *    Helps to edit the clustered markers' icons (by hazard level)
  */
 
-public class MarkerClusterRenderer extends DefaultClusterRenderer<MyItem> implements Filterable {
-    ClusterManager<MyItem> objectListAll;
+public class MarkerClusterRenderer extends DefaultClusterRenderer<MyItem>{
+    //ClusterManager<MyItem> objectListAll;
+    List<MyItem> objectListAll;
     ClusterManager<MyItem> objectList;
     public MarkerClusterRenderer(Context context, GoogleMap map, ClusterManager<MyItem> clusterManager) {
         super(context, map, clusterManager);
          this.objectList=clusterManager;
-         this.objectListAll=clusterManager;
+         objectListAll=new ArrayList<>();
+         objectListAll.addAll(objectList.getAlgorithm().getItems());
+         //this.objectListAll=clusterManager;
     }
 
     @Override
@@ -59,7 +63,6 @@ public class MarkerClusterRenderer extends DefaultClusterRenderer<MyItem> implem
         //marker.showInfoWindow();
     }
 
-
     //iteration 3
     //Tutorial from https://youtu.be/CTvzoVtKoJ8
     public Filter getFilter(){
@@ -69,18 +72,20 @@ public class MarkerClusterRenderer extends DefaultClusterRenderer<MyItem> implem
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             //create a temp restaurant
-            ClusterManager<MyItem> filteredList=null;
-
+          //  ClusterManager<MyItem> filteredList=new ArrayList<>();
+            List<MyItem> filteredList = new ArrayList<>();
             //when the input is empty, we resee all the resaturants list
             if (constraint == null || constraint.length() == 0) {
-                filteredList=objectList;
+                filteredList.addAll(objectListAll);
+
             } else {
                 //search all the resaturant list
                 //we find the one's name with the same order of inputs
 
-                for (MyItem myItem: objectList.getAlgorithm().getItems()) {
+               // for (MyItem myItem: objectList.getAlgorithm().getItems()) {
+                for (MyItem myItem: objectListAll) {
                     if (myItem.getTitle().toLowerCase().contains(constraint.toString().toLowerCase())) {
-                        filteredList.addItem(myItem);
+                        filteredList.add(myItem);
                     }
                 }
             }
@@ -94,8 +99,11 @@ public class MarkerClusterRenderer extends DefaultClusterRenderer<MyItem> implem
         protected void publishResults(CharSequence constraint, FilterResults results) {
             //UI behaviors
             objectList.clearItems();
+            //testing
+           // MyItem myItem = new MyItem(49.19206, -122.756256, "what ever", ""+results.values,0);
             objectList.addItems((Collection<MyItem>) results.values);
-       // notifyAll();
+            //objectList.addItems((Collection<MyItem>) results.values);
+            objectList.cluster();
         }
     };
 
