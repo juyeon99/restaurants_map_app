@@ -155,7 +155,9 @@ public class MapsActivity extends AppCompatActivity {
             }
         });
         searchView.setQuery(passingSearch.getSearchValue(),false);
-        //Toast.makeText(getApplicationContext(), ""+passingSearch.getSearchValue(), Toast.LENGTH_SHORT).show();
+        if (!passingSearch.getSearchValue().isEmpty()) {
+            Toast.makeText(getApplicationContext(), "Press enter to show only the restaurants you searched", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void getCurrentLocation() {
