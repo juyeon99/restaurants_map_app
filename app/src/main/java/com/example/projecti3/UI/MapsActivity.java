@@ -65,6 +65,7 @@ import com.example.projecti3.R;
  *    MapsActivity --> Displays the user's current location as a default, and shows the map with the pegs for each restaurants
  *                     Able to go to restaurant lists by clicking the button
  *                     Clusters the pegs if there's too many pegs at the similar area
+ *                     If the user search the restaurant, it would show the restaurant pegs that contains the word the user typed and satisfies the searching criteria.
  */
 
 public class MapsActivity extends AppCompatActivity {
@@ -155,6 +156,7 @@ public class MapsActivity extends AppCompatActivity {
         });
         //Toast.makeText(getApplicationContext(), ""+passingSearch.getSearchValue(), Toast.LENGTH_SHORT).show();
     }
+
     private void getCurrentLocation() {
         // Initialize task location
         @SuppressLint("MissingPermission") Task<Location> task = client.getLastLocation();
