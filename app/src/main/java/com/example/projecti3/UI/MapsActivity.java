@@ -60,6 +60,8 @@ import com.example.projecti3.R;
 // https://developers.google.com/maps/documentation/android-sdk/utility/marker-clustering#introduction clustered pegs
 // https://stackoverflow.com/questions/30963602/android-open-infowindow-on-cluster-marker overriding renderer
 // https://www.youtube.com/watch?v=VUVv2Of7gBU&feature=share location update
+// https://www.youtube.com/watch?v=iWYsBDCGhGw SearchView
+// https://youtu.be/CTvzoVtKoJ8 Filtering search
 
 /**
  *    MapsActivity --> Displays the user's current location as a default, and shows the map with the pegs for each restaurants
@@ -136,7 +138,6 @@ public class MapsActivity extends AppCompatActivity {
         //this is for when we use gps in the restaurant detail to call this map
         startGps(this.getIntent());
         //iteration 3 search
-        //Tutorial from:https://youtu.be/CTvzoVtKoJ8
         SearchView searchView=findViewById(R.id.SearchMap);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -154,6 +155,7 @@ public class MapsActivity extends AppCompatActivity {
                 return false;
             }
         });
+        searchView.setQuery(passingSearch.getSearchValue(),false);
         //Toast.makeText(getApplicationContext(), ""+passingSearch.getSearchValue(), Toast.LENGTH_SHORT).show();
     }
 
@@ -272,8 +274,6 @@ public class MapsActivity extends AppCompatActivity {
                 }
             });
 
-
-
             gMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                 @Override
                 public boolean onMarkerClick(Marker marker) {
@@ -284,6 +284,7 @@ public class MapsActivity extends AppCompatActivity {
                     return false;
                 }
             });
+
             clusterManager.setOnClusterItemInfoWindowClickListener(new ClusterManager.OnClusterItemInfoWindowClickListener<MyItem>() {
                 public void onClusterItemInfoWindowClick(MyItem item) {
                     //this index is of a shorted restaurant list

@@ -81,7 +81,7 @@ public class MarkerClusterRenderer extends DefaultClusterRenderer<MyItem>{
                 filteredList.addAll(objectListAll);
 
             } else {
-                //search all the resaturant list
+                //search all the restaurant list
                 //we find the one's name with the same order of inputs
 
                // for (MyItem myItem: objectList.getAlgorithm().getItems()) {
@@ -91,7 +91,7 @@ public class MarkerClusterRenderer extends DefaultClusterRenderer<MyItem>{
                     }
                 }
             }
-            //create the resurn value
+            //create the return value
             FilterResults filterResults = new FilterResults();
             filterResults.values = filteredList;
             return filterResults;
