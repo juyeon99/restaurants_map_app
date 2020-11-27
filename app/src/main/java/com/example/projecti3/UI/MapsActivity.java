@@ -20,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.example.projecti3.Model.PassingSearch;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
@@ -87,7 +88,7 @@ public class MapsActivity extends AppCompatActivity {
     private SearchView searchView;
     SingletonRestaurantManager manager;
     List<Restaurant> sortedRestaurantList;
-
+    PassingSearch passingSearch= PassingSearch.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -140,17 +141,20 @@ public class MapsActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query){
-                MapsActivity.this.renderer.getFilter().filter(query);
+                passingSearch.setSearchValue(query);
+                MapsActivity.this.renderer.getFilter().filter(passingSearch.getSearchValue());
                 return false;
             }
             @Override
             public boolean onQueryTextChange(String newText) {
                 //although in the email, prof Jack said, he will assume to see the result after press enter,
                 //it is nicer to see the changes will user typing
-                MapsActivity.this.renderer.getFilter().filter(newText);
+                //passingSearch.setSearchValue(newText);
+                //MapsActivity.this.renderer.getFilter().filter(passingSearch.getSearchValue());
                 return false;
             }
         });
+        //Toast.makeText(getApplicationContext(), ""+passingSearch.getSearchValue(), Toast.LENGTH_SHORT).show();
     }
 
     private void getCurrentLocation() {

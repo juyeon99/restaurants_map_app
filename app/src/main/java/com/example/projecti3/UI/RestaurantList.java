@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -19,6 +20,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.example.projecti3.Model.Inspection;
+import com.example.projecti3.Model.PassingSearch;
 import com.example.projecti3.Model.Restaurant;
 import com.example.projecti3.Model.SingletonRestaurantManager;
 import com.example.projecti3.R;
@@ -53,9 +55,8 @@ public class RestaurantList extends AppCompatActivity {
     RestaurantAdapter restaurantAdapter;
     Restaurant restaurant = new Restaurant();
     Inspection inspection = new Inspection();
-
     Button goToMap;
-
+    PassingSearch passingSearch= PassingSearch.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,17 +88,22 @@ public class RestaurantList extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query){
-                RestaurantList.this.restaurantAdapter.getFilter().filter(query);
+                passingSearch.setSearchValue(query);
+                RestaurantList.this.restaurantAdapter.getFilter().filter(passingSearch.getSearchValue());
                 return false;
             }
             @Override
             public boolean onQueryTextChange(String newText) {
                 //although in the email, prof Jack said, he will assume to see the result after press enter,
                 //it is nicer to see the changes will user typing
-                RestaurantList.this.restaurantAdapter.getFilter().filter(newText);
+                passingSearch.setSearchValue(newText);
+                RestaurantList.this.restaurantAdapter.getFilter().filter(passingSearch.getSearchValue());
                 return false;
             }
         });
+        searchView.setQuery(passingSearch.getSearchValue(),false);
+        //testing
+        //Toast.makeText(getApplicationContext(), ""+passingSearch.getSearchValue(), Toast.LENGTH_SHORT).show();
     }
 
     //back button behavior
