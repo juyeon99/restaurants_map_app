@@ -60,6 +60,8 @@ import com.example.projecti3.R;
 // https://developers.google.com/maps/documentation/android-sdk/utility/marker-clustering#introduction clustered pegs
 // https://stackoverflow.com/questions/30963602/android-open-infowindow-on-cluster-marker overriding renderer
 // https://www.youtube.com/watch?v=VUVv2Of7gBU&feature=share location update
+// https://www.youtube.com/watch?v=iWYsBDCGhGw SearchView
+// https://youtu.be/CTvzoVtKoJ8 Filtering search
 
 /**
  *    MapsActivity --> Displays the user's current location as a default, and shows the map with the pegs for each restaurants
@@ -70,9 +72,8 @@ import com.example.projecti3.R;
 
 public class MapsActivity extends AppCompatActivity {
     Restaurant restaurant = new Restaurant();
-    Inspection inspection = new Inspection();
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
-    private static final float DEFAULT_ZOOM = 15f;
+    private static final float DEFAULT_ZOOM = 10;
     private FusedLocationProviderClient client;
     SupportMapFragment supportMapFragment;
     GoogleMap gMap;
@@ -85,7 +86,6 @@ public class MapsActivity extends AppCompatActivity {
     private MarkerClusterRenderer renderer;
     private List<MyItem> myItemList=new ArrayList<>();
 
-    private SearchView searchView;
     SingletonRestaurantManager manager;
     List<Restaurant> sortedRestaurantList;
     PassingSearch passingSearch= PassingSearch.getInstance();
@@ -135,8 +135,8 @@ public class MapsActivity extends AppCompatActivity {
         }
         //this is for when we use gps in the restaurant detail to call this map
         startGps(this.getIntent());
+
         //iteration 3 search
-        //Tutorial from:https://youtu.be/CTvzoVtKoJ8
         SearchView searchView=findViewById(R.id.SearchMap);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -154,7 +154,10 @@ public class MapsActivity extends AppCompatActivity {
                 return false;
             }
         });
-        //Toast.makeText(getApplicationContext(), ""+passingSearch.getSearchValue(), Toast.LENGTH_SHORT).show();
+        searchView.setQuery(passingSearch.getSearchValue(),false);
+        if (!passingSearch.getSearchValue().isEmpty()) {
+            Toast.makeText(getApplicationContext(), "Press enter to show only the restaurants you searched", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void getCurrentLocation() {
@@ -179,7 +182,7 @@ public class MapsActivity extends AppCompatActivity {
                             options.title("This is where you are.");
                             // gMap.addMarker(options).showInfoWindow();
                             //moveCamera(currentLatLng, 5);
-                            moveCamera(currentLatLng, 10);
+                            moveCamera(currentLatLng, DEFAULT_ZOOM);
                             if (ActivityCompat.checkSelfPermission(MapsActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(MapsActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                                 return;
                             }
@@ -272,8 +275,6 @@ public class MapsActivity extends AppCompatActivity {
                 }
             });
 
-
-
             gMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                 @Override
                 public boolean onMarkerClick(Marker marker) {
@@ -284,6 +285,7 @@ public class MapsActivity extends AppCompatActivity {
                     return false;
                 }
             });
+
             clusterManager.setOnClusterItemInfoWindowClickListener(new ClusterManager.OnClusterItemInfoWindowClickListener<MyItem>() {
                 public void onClusterItemInfoWindowClick(MyItem item) {
                     //this index is of a shorted restaurant list
