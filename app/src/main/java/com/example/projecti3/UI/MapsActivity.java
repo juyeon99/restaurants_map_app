@@ -72,9 +72,8 @@ import com.example.projecti3.R;
 
 public class MapsActivity extends AppCompatActivity {
     Restaurant restaurant = new Restaurant();
-    Inspection inspection = new Inspection();
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
-    private static final float DEFAULT_ZOOM = 15f;
+    private static final float DEFAULT_ZOOM = 10;
     private FusedLocationProviderClient client;
     SupportMapFragment supportMapFragment;
     GoogleMap gMap;
@@ -87,7 +86,6 @@ public class MapsActivity extends AppCompatActivity {
     private MarkerClusterRenderer renderer;
     private List<MyItem> myItemList=new ArrayList<>();
 
-    private SearchView searchView;
     SingletonRestaurantManager manager;
     List<Restaurant> sortedRestaurantList;
     PassingSearch passingSearch= PassingSearch.getInstance();
@@ -137,6 +135,7 @@ public class MapsActivity extends AppCompatActivity {
         }
         //this is for when we use gps in the restaurant detail to call this map
         startGps(this.getIntent());
+
         //iteration 3 search
         SearchView searchView=findViewById(R.id.SearchMap);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -181,7 +180,7 @@ public class MapsActivity extends AppCompatActivity {
                             options.title("This is where you are.");
                             // gMap.addMarker(options).showInfoWindow();
                             //moveCamera(currentLatLng, 5);
-                            moveCamera(currentLatLng, 10);
+                            moveCamera(currentLatLng, DEFAULT_ZOOM);
                             if (ActivityCompat.checkSelfPermission(MapsActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(MapsActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                                 return;
                             }
