@@ -68,7 +68,7 @@ public class RestaurantList extends AppCompatActivity {
         listView.setOnItemClickListener(
                 (parent,view,position,id)->{
                     Intent intent = RestaurantDetailsUI.makeDetailIntent(RestaurantList.this, position);
-                    Toast.makeText(getApplicationContext(), ""+SingletonRestaurantManager.getInstance().get(position).getFavStatus(), Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(), ""+SingletonRestaurantManager.getInstance().get(position).getFavStatus(), Toast.LENGTH_SHORT).show();
                     startActivity(intent);
                 }
         );
