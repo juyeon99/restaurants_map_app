@@ -20,6 +20,9 @@
     <string name="back">back</string>
     <string name="show_lists">Show Lists</string>
     <string name="return_to_map">Return to map</string>
-
+    <string name="lowHazard">Low</string>
+    <string name="moderateHazard">Moderate</string>
+    <string name="highHazard">High</string>
+    <string name="noHazard">None</string>
 
 </resources>
