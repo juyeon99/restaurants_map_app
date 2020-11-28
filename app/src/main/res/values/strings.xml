@@ -19,6 +19,7 @@
     <string name="str_recent_inspection_report">------Recent Inspection Report------</string>
     <string name="back">back</string>
     <string name="show_lists">Show Lists</string>
+    <string name="return_to_map">Return to map</string>
 
 
 </resources>
