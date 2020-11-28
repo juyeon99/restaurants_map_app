@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">projectI2</string>
+    <string name="app_name">projectI3</string>
     <string name="restaurant_details">Restaurant Details</string>
     <string name="name">Name:</string>
     <string name="address">Address:</string>
@@ -11,7 +11,6 @@
     <string name="hazard_level">Hazard Level</string>
     <string name="critical_issues">Critical Issues:</string>
     <string name="non_critical_issues">Non-Critical Issues:</string>
-    <string name="hazred_level">Hazred level:</string>
     <string name="str_restaurant_name">Restaurant Name</string>
     <string name="str_num_issues"># of Issues found</string>
     <string name="str_haz_level">Hazard Level</string>
@@ -24,5 +23,25 @@
     <string name="moderateHazard">Moderate</string>
     <string name="highHazard">High</string>
     <string name="noHazard">None</string>
-
+    <string name="longitude">Longitude</string>
+    <string name="latitude">Latitude</string>
+    <string name="date">Date</string>
+    <string name="whatHazard">Hazard level</string>
+    <string name="numIssues">Number of issues</string>
+    <string name="routine">Routine</string>
+    <string name="followup">Follow-Up</string>
+    <string name="numCritFound">Number of critical issues found</string>
+    <string name="numNonCritFound">Number of non-critical issue found</string>
+    <string name="addressRecent">Address</string>
+    <string name="mostRecent">most recent</string>
+    <string name="newUpdate">New Update Available</string>
+    <string name="wantUpdate">Would you like to update?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="downloadSpeed">Speed of download</string>
+    <string name="perSecond">per second</string>
+    <string name="pleaseWait">Please Wait</string>
+    <string name="downloadingData">Downloading Data</string>
+    <string name="installingData">Installing Data</string>
+    <string name="cancelUpdate">Cancel Update</string>
 </resources>

@@ -33,6 +33,9 @@ public class RestaurantAdapter extends ArrayAdapter<RecentRestaurant> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         LayoutInflater layoutInflater = LayoutInflater.from(mContext);
 
+        String numInspecIssues = mContext.getResources().getString(R.string.numIssues);
+        String whatHazard = mContext.getResources().getString(R.string.whatHazard);
+        String theDate = mContext.getResources().getString(R.string.date);
         convertView = layoutInflater.inflate(mResource, parent, false);
 
         TextView restName = convertView.findViewById(R.id.restaurant_name);
@@ -43,9 +46,9 @@ public class RestaurantAdapter extends ArrayAdapter<RecentRestaurant> {
         ImageView hazardIcon = convertView.findViewById(R.id.hazard_icon);
 
         restName.setText(getItem(position).getName());
-        numIssues.setText("# of issues: " + getItem(position).getNumIssues());
-        hazardLevel.setText("Hazard level: " + getItem(position).getHazardLevel());
-        date.setText("Date: " + getItem(position).getHowLongAgo());
+        numIssues.setText(numInspecIssues + ": " + getItem(position).getNumIssues());
+        hazardLevel.setText(whatHazard + ": " + getItem(position).getHazardLevel());
+        date.setText(theDate +": " + getItem(position).getHowLongAgo());
         image.setImageResource(getItem(position).getImage());
         hazardIcon.setImageResource(getItem(position).getHazardIcon());
 

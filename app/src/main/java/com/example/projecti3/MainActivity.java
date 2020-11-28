@@ -129,11 +129,15 @@ public class MainActivity extends AppCompatActivity {
 
     private void checkForUpdate() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("New Update Available!!");
-        builder.setMessage("Would you like to update?");
+        String newUpdate = getApplicationContext().getResources().getString(R.string.newUpdate);
+        String wantUpdate = getApplicationContext().getResources().getString(R.string.wantUpdate);
+        String yes = getApplicationContext().getResources().getString(R.string.yes);
+        String no = getApplicationContext().getResources().getString(R.string.no);
+        builder.setTitle( newUpdate + "!!");
+        builder.setMessage(wantUpdate);
         dr1 = new DownloadRequest(getApplicationContext());
         dr2 = new DownloadRequest(getApplicationContext());
-        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(yes, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 bufferRest = true;
@@ -164,7 +168,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(no, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
@@ -181,18 +185,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void update() {
+        String downloadingData = getApplicationContext().getResources().getString(R.string.downloadingData);
+        String installingData = getApplication().getResources().getString(R.string.installingData);
+        String pleaseWait = getApplicationContext().getResources().getString(R.string.pleaseWait);
+        String cancelUpdate = getApplicationContext().getResources().getString(R.string.cancelUpdate);
         progressDialog = new ProgressDialog(MainActivity.this);
-        progressDialog.setTitle("Downloading data");
-        progressDialog.setMessage("Please wait...");
+        progressDialog.setTitle(downloadingData);
+        progressDialog.setMessage(pleaseWait + "...");
         progressDialog.setIndeterminate(false);
         progressDialog.setCancelable(true);
 
         pD = new ProgressDialog(MainActivity.this);
-        pD.setTitle("Installing Data");
-        pD.setMessage("Please wait...");
+        pD.setTitle(installingData);
+        pD.setMessage( pleaseWait + "...");
         pD.show();
 
-        progressDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel Update", new DialogInterface.OnClickListener() {
+        progressDialog.setButton(DialogInterface.BUTTON_NEGATIVE, cancelUpdate, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 bufferRest = false;
@@ -235,7 +243,9 @@ public class MainActivity extends AppCompatActivity {
                         long tDelta = tEnd - tStart;
                         double elapsedSeconds = tDelta / 1000.0;
                         int speed = (int) (counter / elapsedSeconds);
-                        progressDialog.setMessage("Speed of download: " + speed + "MB per second");
+                        String speedOfDownload = getApplicationContext().getResources().getString(R.string.downloadSpeed);
+                        String perSecond = getApplicationContext().getResources().getString(R.string.perSecond);
+                        progressDialog.setMessage( speedOfDownload+ ": " + speed + "MB " + perSecond);
                     }
                 });
             }
