@@ -224,22 +224,24 @@ public class MapsActivity extends AppCompatActivity {
                 if (orderedList.size() != 0) {
                     if (orderedList.get(0).getHazardLevel().equals("Low")) {
                         options.icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.green_map_marker));
-                        level = "Low";
+                        level = getApplicationContext().getResources().getString(R.string.lowHazard);
                     } else if (orderedList.get(0).getHazardLevel().equals("Moderate")) {
                         options.icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.orange_map_marker));
-                        level = "Moderate";
+                        level = getApplicationContext().getResources().getString(R.string.moderateHazard);;
                     } else if (orderedList.get(0).getHazardLevel().equals("High")) {
                         options.icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.red_map_marker));
-                        level = "High";
+                        level = getApplicationContext().getResources().getString(R.string.highHazard);;
                     }
                 } else {
                     options.icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.orange_map_marker));
-                    level = "None";
+                    level = getApplicationContext().getResources().getString(R.string.noHazard);;
                 }
 
-
-                String snippet = "Address: " + res.getAddress() + "\n"
-                        + "Hazard Level (most recent): "+level ;
+                String address = getApplicationContext().getResources().getString(R.string.addressRecent);
+                String whatHazard = getApplicationContext().getResources().getString(R.string.whatHazard);
+                String mostRecent = getApplicationContext().getResources().getString(R.string.mostRecent);
+                String snippet = address  + ": " + res.getAddress() + "\n"
+                        + whatHazard  +" (" + mostRecent + "): "+level ;
                 options.snippet(snippet);
 
                 options.title(res.getName());

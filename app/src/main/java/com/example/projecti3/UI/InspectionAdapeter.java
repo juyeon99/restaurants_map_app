@@ -51,8 +51,10 @@ public class InspectionAdapeter extends ArrayAdapter<Inspection> {
         TextView textHowlongAgo=convertView.findViewById(R.id.howLongAgo);
         TextView textHazardlevel=convertView.findViewById(R.id.hazardLevel4inspectionList);
         //set data view
-        textCritial.setText("#critical issue found:"+getItem(position).getCritIssues());
-        textNoncritical.setText("#non-critical issue found:"+getItem(position).getNoncritIssuses());
+        String numCritFound = context.getResources().getString(R.string.numCritFound);
+        String numNonCritFound = context.getResources().getString(R.string.numNonCritFound);
+        textCritial.setText(numCritFound+": " +getItem(position).getCritIssues());
+        textNoncritical.setText(numNonCritFound+ ": "+getItem(position).getNoncritIssuses());
         //makethe date to a String
         int year = getItem(position).getDate() / 10000;
         int month = (getItem(position).getDate() % 10000) / 100;
@@ -86,13 +88,15 @@ public class InspectionAdapeter extends ArrayAdapter<Inspection> {
         String dateInspec = "" + monthS + ","  + day + "," + year;
 
         //updates the date text
-        textHowlongAgo.setText("Date:"+dateInspec);
+        String theDate = context.getResources().getString(R.string.date);
+        textHowlongAgo.setText(theDate+ ": "+dateInspec);
 
         //set up the hazard level
+        String whatHazard = context.getResources().getString(R.string.whatHazard) ;
         if(getItem(position).getHazardLevel().equals("")){
-            textHazardlevel.setText("Hazard level: None");
+            textHazardlevel.setText(whatHazard + ": None");
         }else{
-            textHazardlevel.setText("Hazard level:"+getItem(position).getHazardLevel());
+            textHazardlevel.setText(whatHazard + ": "+getItem(position).getHazardLevel());
         }
 
 

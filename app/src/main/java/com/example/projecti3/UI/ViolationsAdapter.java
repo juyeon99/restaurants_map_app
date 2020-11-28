@@ -44,8 +44,7 @@ public class ViolationsAdapter extends ArrayAdapter<ViolationPerson> {
         imageView2.setImageResource(getItem(position).getImage2());
         String[] data = getItem(position).getViolation().split(",");
 
-        viol = data[2].split("\\[");
-        violationFiller.setText(viol[0]);
+        violationFiller.setText(data[0]);
         if (getItem(position).getViolation().contains("Not Critical")) {
                violationFiller.setTextColor(ContextCompat.getColor(mContext, R.color.lowLime));
         } else {

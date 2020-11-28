@@ -91,26 +91,30 @@ public class Display_Inspection extends AppCompatActivity {
         nonCritCount.setText(nonCritMessage + " " + nonCritIssues );
 
         TextView inspectionHazard = (TextView) findViewById(R.id.hazardLevelTrue);
-        inspectionHazard.setText(hazardLevel);
+        //inspectionHazard.setText(hazardLevel);
         //View inspecView = findViewById(R.id.)
         //View view = this.getWindow().getDecorView();
         //Toast.makeText(getApplicationContext(),hazardLevel,Toast.LENGTH_LONG).show();
         if(hazardLevel.equals("Low")) {
+            inspectionHazard.setText(R.string.lowHazard);
             inspectionHazard.setTextColor(getResources().getColor(R.color.lowLime));
             hazard_image = getResources().getDrawable(R.drawable.greencircle);
             hazardImage.setBackground(hazard_image);
             //setActivityBackgroundColour(getResources().getColor(R.color.colorWhitishGreen));
         } else if (hazardLevel.equals("Moderate")) {
+            inspectionHazard.setText(R.string.moderateHazard);
             inspectionHazard.setTextColor(getResources().getColor(R.color.colorModerateOrange));
             hazard_image = getResources().getDrawable(R.drawable.orangecircle);
             hazardImage.setBackground(hazard_image);
             //setActivityBackgroundColour(getResources().getColor(R.color.colorWhitishOrange));
         } else if(hazardLevel.equals("High")) {
+            inspectionHazard.setText(R.string.highHazard);
             inspectionHazard.setTextColor(getResources().getColor(R.color.colorDangerRed));
             hazard_image = getResources().getDrawable(R.drawable.redcircle);
             hazardImage.setBackground(hazard_image);
             //setActivityBackgroundColour(getResources().getColor(R.color.colorPink));
         } else {
+            inspectionHazard.setText(R.string.noHazard);
             inspectionHazard.setTextColor(getResources().getColor(R.color.colorHazardless));
             //hazardImage.setBackgroundColor(getResources().getColor(R.color.colorWhite));
         }

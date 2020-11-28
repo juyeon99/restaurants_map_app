@@ -185,21 +185,24 @@ public class InfoRequest extends AsyncTask<String, String, String> {
 
         File[] allFiles = getFilesFromDownload(context);
 
+        boolean containI = false;
+        boolean containR = false;
         for (File file : allFiles) {
             String fileName = file.getName();
-            boolean containR = fileName.contains("restaurants_itr1");
-            boolean containI = fileName.contains("inspectionreports_itr1");
 
-            if (!containR) {
-                count = 1;
-            }
-            if (!containI) {
-                count = 2;
-            }
-            if (!containI && !containR ) {
-                count = 3;
-                break;
-            }
+            containR = fileName.contains("restaurants_itr1");
+            containI = fileName.contains("inspectionreports_itr1");
+
+
+        }
+        if (!containR) {
+            count = 1;
+        }
+        if (!containI) {
+            count = 2;
+        }
+        if (!containI && !containR ) {
+            count = 3;
         }
         return count;
     }

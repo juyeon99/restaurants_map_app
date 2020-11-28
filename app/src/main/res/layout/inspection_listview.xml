@@ -52,7 +52,7 @@
         android:layout_toRightOf="@+id/icon4inspectionList"
 
 
-        android:text="@string/hazred_level" />
+        android:text="@string/hazard_level" />
 
 
 </RelativeLayout>

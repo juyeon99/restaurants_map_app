@@ -124,7 +124,9 @@ public class RestaurantDetailsUI extends AppCompatActivity {
     private void repopulateUi() {
         nameText.setText(restaurant.getName());
         addressText.setText(restaurant.getAddress());
-        gpsText.setText("Longtitude: "+restaurant.getLongitude()+
-                "  Latitude: "+restaurant.getLatitude());
+        String longitude = getApplicationContext().getResources().getString(R.string.longitude);
+        String latitude = getApplicationContext().getResources().getString(R.string.latitude);
+        gpsText.setText(longitude + ": "+restaurant.getLongitude()+ " " + latitude
+                + ": "+restaurant.getLatitude());
     }
 }
