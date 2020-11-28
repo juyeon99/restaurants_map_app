@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import com.example.projecti3.Model.SingletonRestaurantManager;
 import com.example.projecti3.R;
 
 // 1. Display list of all restaurants
@@ -53,6 +54,7 @@ public class RestaurantAdapter extends ArrayAdapter<RecentRestaurant> implements
         TextView date = convertView.findViewById(R.id.date);
         ImageView image = convertView.findViewById(R.id.icon);
         ImageView hazardIcon = convertView.findViewById(R.id.hazard_icon);
+        ImageView fav=convertView.findViewById(R.id.favrate);
 
         restName.setText(getItem(position).getName());
         numIssues.setText(numInspecIssues + ": " + getItem(position).getNumIssues());
@@ -60,14 +62,15 @@ public class RestaurantAdapter extends ArrayAdapter<RecentRestaurant> implements
         date.setText(theDate +": " + getItem(position).getHowLongAgo());
         image.setImageResource(getItem(position).getImage());
         hazardIcon.setImageResource(getItem(position).getHazardIcon());
-
-
         if (getItem(position).getHazardLevel().equals("Low")) {
             hazardLevel.setTextColor(ContextCompat.getColor(mContext, R.color.lowLime));
         } else if (getItem(position).getHazardLevel().equals("Moderate")) {
             hazardLevel.setTextColor(ContextCompat.getColor(mContext, R.color.colorModerateOrange));
         } else if (getItem(position).getHazardLevel().equals("High")) {
             hazardLevel.setTextColor(ContextCompat.getColor(mContext, R.color.colorDangerRed));
+        }
+        if(getItem(position).fav.equals("1")) {
+            fav.setBackgroundResource(R.drawable.fav);
         }
         return convertView;
     }

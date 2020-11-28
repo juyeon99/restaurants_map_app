@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -31,12 +32,11 @@ public class RestaurantDetailsUI extends AppCompatActivity {
     private TextView addressText;
     private TextView gpsText;
     private ListView inspectionList;
-
     private int index;
     private DBAdapter db;
     FavItem favItem;
     ArrayList<DBAdapter> favorites;
-
+    SingletonRestaurantManager singletonRestaurantManager=SingletonRestaurantManager.getInstance();
     //get the info from the privious activity
     public static Intent makeDetailIntent(Context c, int restaurantIdx){
         Intent intent=new Intent(c, RestaurantDetailsUI.class);
@@ -59,11 +59,13 @@ public class RestaurantDetailsUI extends AppCompatActivity {
                 restaurant.setFavStatus("1");
                 db.insertRow(restaurant.getName(), index, restaurant.getFavStatus(), restaurant.getLatestInspectionDate(restaurant.getAllInspection(), restaurant.getTrackingNum()));
                 fav.setBackgroundResource(R.drawable.fav);
+                singletonRestaurantManager.setFav(index,"1");
             }
             else {
                 restaurant.setFavStatus("0");
                 db.deleteRow(db.getByName(restaurant.getName()));
                 fav.setBackgroundResource(R.drawable.fav_border);
+                singletonRestaurantManager.setFav(index,"0");
             }
         });
 
@@ -108,6 +110,17 @@ public class RestaurantDetailsUI extends AppCompatActivity {
         //iteration 2: Back-button behaviour
         //author:tianyu che
         setOnGpsCoord();
+
+        Button btn = (Button)findViewById(R.id.backBTNN);
+
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(RestaurantDetailsUI.this, RestaurantList.class));
+            }
+        });
+
+
     }
     //iteration 2: Back-button behaviour
     private void setOnGpsCoord() {
@@ -152,7 +165,7 @@ public class RestaurantDetailsUI extends AppCompatActivity {
         index = intent.getIntExtra(EXTRA_RESTAURANT_INDEX,-1);
         SingletonRestaurantManager restaurantManager=SingletonRestaurantManager.getInstance();
         List<Restaurant> sortedRestaurantList = restaurantManager.sortAlphabetically();
-        restaurant= sortedRestaurantList.get(index);
+        restaurant= restaurantManager.getRestaurantManager().get(index);
     }
     private void repopulateUi() {
         nameText.setText(restaurant.getName());
@@ -161,6 +174,7 @@ public class RestaurantDetailsUI extends AppCompatActivity {
         String latitude = getApplicationContext().getResources().getString(R.string.latitude);
         gpsText.setText(longitude + ": "+restaurant.getLongitude()+ " " + latitude
                 + ": "+restaurant.getLatitude());
+
     }
 
     @Override
