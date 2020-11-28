@@ -9,14 +9,16 @@ public class RecentRestaurant {
     int hazardIcon;
     String hazardLevel;
     String howLongAgo;
+    String fav;
 
-    public RecentRestaurant(String name, int image, int numIssues, int hazardIcon, String hazardLevel, String howLongAgo) {
+    public RecentRestaurant(String name, int image, int numIssues, int hazardIcon, String hazardLevel, String howLongAgo,String fav) {
         this.name = name;
         this.image = image;
         this.numIssues = numIssues;
         this.hazardIcon = hazardIcon;
         this.hazardLevel = hazardLevel;
         this.howLongAgo = howLongAgo;
+        this.fav=fav;
     }
 
     public String getName() {
@@ -54,6 +56,7 @@ public class RecentRestaurant {
     public String getHazardLevel() {
         return hazardLevel;
     }
+
 
     public void setHazardLevel(String hazardLevel) {
         this.hazardLevel = hazardLevel;

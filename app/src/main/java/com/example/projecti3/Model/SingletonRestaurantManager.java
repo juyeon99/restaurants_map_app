@@ -75,10 +75,16 @@ public class SingletonRestaurantManager implements Iterable<Restaurant> {
         }
         return restaurantManager;
     }
-
+    public List<Restaurant> getRestaurantManager(){
+        return restaurantManager;
+    }
     @Override
     public Iterator<Restaurant> iterator() {
         return restaurantManager.iterator();
+    }
+
+    public void setFav(int index, String fav){
+        this.restaurantManager.get(index).setFavStatus(fav);
     }
 
     public int getNumRestaurants() {
