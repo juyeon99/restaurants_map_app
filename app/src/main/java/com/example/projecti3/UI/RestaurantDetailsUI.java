@@ -2,7 +2,6 @@ package com.example.projecti3.UI;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -36,7 +35,7 @@ public class RestaurantDetailsUI extends AppCompatActivity {
     private int index;
     private DBAdapter db;
     FavItem favItem;
-    SharedPreferences sharedPreferences;
+    ArrayList<DBAdapter> favorites;
 
     //get the info from the privious activity
     public static Intent makeDetailIntent(Context c, int restaurantIdx){
@@ -48,7 +47,10 @@ public class RestaurantDetailsUI extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_restaurant_details_report);
+        //loadData();
         openDB();
+        favItem = new FavItem();
+        favorites = (ArrayList<DBAdapter>) favItem.getAll();
 
         ImageView fav = (ImageView) findViewById(R.id.FAV);
 
@@ -125,6 +127,7 @@ public class RestaurantDetailsUI extends AppCompatActivity {
     public void onBackPressed() {
         closeDB();
         finish();
+        //saveData();
     }
     private void helperOrdering(List<Inspection> orderedList) {
         Inspection temp;
@@ -161,8 +164,40 @@ public class RestaurantDetailsUI extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        //saveData();
         closeDB();
     }
+
+    /*private void saveData() {
+        SharedPreferences preferences = getSharedPreferences("prefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(favorites);
+        editor.putString("list", json);
+        editor.apply();
+    }
+
+    private void loadData(){
+        SharedPreferences preferences = getSharedPreferences("prefs", MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = preferences.getString("list", null);
+        Type type = new TypeToken<ArrayList<FavItem>>() {}.getType();
+        favorites = gson.fromJson(json, type);
+
+        if(favItem == null){
+            favorites = new ArrayList<DBAdapter>();
+        }
+
+        ImageView fav = (ImageView) findViewById(R.id.FAV);
+
+        if(favorites != null && favorites.size() != 0){
+            for(int j = 0; j <= favorites.size(); j++){
+                if(favorites.get(j).getFavStatus().equals("1")){
+                    fav.setBackgroundResource(R.drawable.fav);
+                }
+            }
+        }
+    }*/
 
     private void openDB() {
         db = new DBAdapter(this);

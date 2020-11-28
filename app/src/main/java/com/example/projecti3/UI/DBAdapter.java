@@ -40,7 +40,7 @@ public class DBAdapter {
                     + LATEST + " date not null);";
 
     private SQLiteDatabase db;
-    private final Context context;
+    private Context context;
     private DatabaseHelper helper;
 
     public DBAdapter(Context ctx) {
@@ -58,18 +58,22 @@ public class DBAdapter {
         helper.close();
     }
 
-    public long insertRow(String name, int position, String favStatus, int latest){
+    public long insertRow(String Name, int Pos, String status, int LD){
         ContentValues initialValues = new ContentValues();
-        initialValues.put(KEY_NAME, name);
-        initialValues.put(KEY_NUM, position);
-        initialValues.put(FAV_STATUS, favStatus);
-        initialValues.put(LATEST, latest);
+        initialValues.put(KEY_NAME, Name);
+        initialValues.put(KEY_NUM, Pos);
+        initialValues.put(FAV_STATUS, status);
+        initialValues.put(LATEST, LD);
         return db.insert(DATABASE_TABLE, null, initialValues);
     }
 
     public void deleteRow(long rowID){
         String where = KEY_ROWID + "=" + rowID;
         db.delete(DATABASE_TABLE, where, null);
+    }
+
+    public String getFavStatus(){
+        return FAV_STATUS;
     }
 
     public int getByName(String name){
