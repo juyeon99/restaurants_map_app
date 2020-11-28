@@ -18,6 +18,7 @@
     <string name="str_recent_inspection_report">------ Rapport D\'Inspection Récent------</string>
     <string name="back">arrière</string>
     <string name="show_lists">Afficher Des Listes</string>
+    <string name="hintMapSearch">Entrez le nom du restaurant</string>
     <string name="return_to_map">Retour à la carte</string>
     <string name="lowHazard">Faible</string>
     <string name="moderateHazard">Modéré</string>

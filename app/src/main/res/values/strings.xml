@@ -18,6 +18,7 @@
     <string name="str_recent_inspection_report">------Recent Inspection Report------</string>
     <string name="back">back</string>
     <string name="show_lists">Show Lists</string>
+    <string name="hintMapSearch">Enter the name of the restaurant</string>
     <string name="return_to_map">Return to map</string>
     <string name="lowHazard">Low</string>
     <string name="moderateHazard">Moderate</string>
