@@ -94,7 +94,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void fixMissingDownloads() {
         InfoRequest irFixer;
+        InfoRequest irFixer2;
         irFixer =  new InfoRequest(getApplicationContext(), true);
+        irFixer2 = new InfoRequest(getApplicationContext(),true);
         //irFixer
         int howManyMissing = irFixer.checkForMissing(getApplicationContext());
         if(howManyMissing == 1) {
@@ -103,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
             irFixer.execute(InfoRequest.INSPECTION_URL);
         } else if (howManyMissing == 3) {
             irFixer.execute(InfoRequest.RESTARAUNT_URL);
-            irFixer.execute(InfoRequest.INSPECTION_URL);
+            irFixer2.execute(InfoRequest.INSPECTION_URL);
         }
     }
 
