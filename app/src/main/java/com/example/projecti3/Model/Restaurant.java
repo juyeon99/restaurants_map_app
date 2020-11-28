@@ -34,6 +34,8 @@ public class Restaurant {
     private Float latitude;
     private Float longitude;
 
+    private String fav;
+
     private int images;
     private int hazardIcons;
 
@@ -135,5 +137,13 @@ public class Restaurant {
                 address + ", " +
                 latitude + ", " +
                 longitude;
+    }
+
+    public void setFavStatus(String s) {
+        this.fav = s;
+    }
+
+    public String getFavStatus() {
+        return fav;
     }
 }
