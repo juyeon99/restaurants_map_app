@@ -20,7 +20,7 @@
 
     <Button
         android:id="@+id/btnStartMap"
-        android:layout_width="wrap_content"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
         android:background="#8BC34A"
@@ -33,7 +33,11 @@
     <SearchView
         android:id="@+id/searchRL"
         android:layout_width="0dp"
-        android:layout_height="80dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:iconifiedByDefault="false"
+        android:queryHint="@string/hintMapSearch"
+        android:background="@drawable/white_border"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
