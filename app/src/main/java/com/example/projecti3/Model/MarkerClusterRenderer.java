@@ -82,14 +82,16 @@ public class MarkerClusterRenderer extends DefaultClusterRenderer<MyItem>{
             List<MyItem> filteredList = new ArrayList<>();
             //when the input is empty, we resee all the restaurants list
             if (constraint == null || constraint.length() == 0) {
-                filteredList.addAll(objectListAll);
-
+                //filteredList.addAll(objectListAll);
+                for (MyItem myItem : objectListAll) {
+                    filteredList.add(myItem);
+                }
             } else {
                 //search all the restaurant list
                 //we find the one's name with the same order of inputs
 
                 // for (MyItem myItem: objectList.getAlgorithm().getItems()) {
-                for (MyItem myItem: objectListAll) {
+                for (MyItem myItem : objectListAll) {
                     if (myItem.getTitle().toLowerCase().contains(constraint.toString().toLowerCase())) {
                         filteredList.add(myItem);
                     }

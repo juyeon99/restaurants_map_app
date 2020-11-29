@@ -46,7 +46,6 @@
     <string name="installingData">Installation Des Données</string>
     <string name="cancelUpdate">Annuler La Mise À Jour</string>
     <string name="clickPeg">Cliquez sur cette cheville pour plus d\'informations.</string>
-    <string name="clickSearchBar">Cliquez sur la barre de recherche et appuyez sur Entrée pour afficher le résultat recherché.</string>
     <string name="curLocation">Localisation actuelle</string>
     <string name="currentLocation">C\'est là que vous êtes.</string>
     <string name="favorite">Favori</string>

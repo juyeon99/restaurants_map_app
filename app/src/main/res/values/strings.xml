@@ -46,7 +46,6 @@
     <string name="installingData">Installing Data</string>
     <string name="cancelUpdate">Cancel Update</string>
     <string name="clickPeg">Click this peg for more information.</string>
-    <string name="clickSearchBar">Click the search bar and press enter to show the searched result.</string>
     <string name="curLocation">Current Location</string>
     <string name="currentLocation">This is where you are.</string>
     <string name="favorite">Favorite</string>

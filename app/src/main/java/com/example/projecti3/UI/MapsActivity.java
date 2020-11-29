@@ -88,7 +88,7 @@ public class MapsActivity extends AppCompatActivity {
 
     SingletonRestaurantManager manager;
     List<Restaurant> sortedRestaurantList;
-    PassingSearch passingSearch= PassingSearch.getInstance();
+    PassingSearch passingSearch = PassingSearch.getInstance();
 
     Button btnFav, btnLow, btnModerate, btnHigh;
 
@@ -150,10 +150,17 @@ public class MapsActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query){
-                btnFav.setVisibility(View.VISIBLE);
-                btnLow.setVisibility(View.VISIBLE);
-                btnModerate.setVisibility(View.VISIBLE);
-                btnHigh.setVisibility(View.VISIBLE);
+                if (query.isEmpty()) {
+                    btnFav.setVisibility(View.INVISIBLE);
+                    btnLow.setVisibility(View.INVISIBLE);
+                    btnModerate.setVisibility(View.INVISIBLE);
+                    btnHigh.setVisibility(View.INVISIBLE);
+                } else {
+                    btnFav.setVisibility(View.VISIBLE);
+                    btnLow.setVisibility(View.VISIBLE);
+                    btnModerate.setVisibility(View.VISIBLE);
+                    btnHigh.setVisibility(View.VISIBLE);
+                }
 
                 passingSearch.setSearchValue(query);
                 MapsActivity.this.renderer.getFilter().filter(passingSearch.getSearchValue());
@@ -182,10 +189,10 @@ public class MapsActivity extends AppCompatActivity {
             }
         });
 
-        //searchView.setQuery(passingSearch.getSearchValue(),false);
-        if (!passingSearch.getSearchValue().isEmpty()) {
-            Toast.makeText(getApplicationContext(), getString(R.string.clickSearchBar), Toast.LENGTH_SHORT).show();
-        }
+//        searchView.setQuery(passingSearch.getSearchValue(),false);
+//        if (!passingSearch.getSearchValue().isEmpty()) {
+//            Toast.makeText(getApplicationContext(), "Click the search bar and press enter to show the searched result.", Toast.LENGTH_SHORT).show();
+//        }
     }
 
     private void getCurrentLocation() {
@@ -333,12 +340,16 @@ public class MapsActivity extends AppCompatActivity {
                     return false;
                 }
             });
+
+            if (!passingSearch.isEmpty()) {
+                MapsActivity.this.renderer.getFilter().filter(passingSearch.getSearchValue());
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
     }
+
     private BitmapDescriptor bitmapDescriptorFromVector (Context context, int vectorResId) {
         Drawable drawable = ContextCompat.getDrawable(context, vectorResId);
         drawable.setBounds(0,0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
@@ -347,6 +358,7 @@ public class MapsActivity extends AppCompatActivity {
         drawable.draw(canvas);
         return BitmapDescriptorFactory.fromBitmap(bitmap);
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
