@@ -104,7 +104,6 @@ public class MarkerClusterRenderer extends DefaultClusterRenderer<MyItem>{
             //testing
            // MyItem myItem = new MyItem(49.19206, -122.756256, "what ever", ""+results.values,0);
             objectList.addItems((Collection<MyItem>) results.values);
-            //objectList.addItems((Collection<MyItem>) results.values);
             objectList.cluster();
         }
     };

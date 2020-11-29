@@ -18,7 +18,7 @@ public class PassingSearch {
         this.searchValue = searchValue;
     }
     public boolean isEmpty(){
-        if(this.searchValue==""){
+        if(this.searchValue.equals("")){
             return true;
         }else{
             return false;

@@ -16,13 +16,65 @@
         android:id="@+id/btnShowList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/SearchMap"
+        android:layout_marginStart="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="5dp"
-        android:layout_below="@+id/SearchMap"
         android:text="@string/show_lists"
         android:textColor="#FFFFFF"
+        app:backgroundTint="#A074EF" />
+
+    <Button
+        android:id="@+id/btnFav"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/SearchMap"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="10dp"
+        android:text="Favorite"
+        android:textColor="#FFFFFF"
+        app:backgroundTint="#2196F3"
+        android:visibility="invisible"/>
+
+    <Button
+        android:id="@+id/btnLow"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btnFav"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:text="@string/lowHazard"
+        android:textColor="#FFFFFF"
         app:backgroundTint="#8BC34A"
-        android:layout_marginStart="10dp" />
+        android:visibility="invisible"/>
+
+    <Button
+        android:id="@+id/btnModerate"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btnLow"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="0dp"
+        android:layout_marginRight="10dp"
+        android:text="@string/moderateHazard"
+        android:textColor="#FFFFFF"
+        app:backgroundTint="#FFC107"
+        android:visibility="invisible"/>
+
+    <Button
+        android:id="@+id/btnHigh"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btnModerate"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="0dp"
+        android:layout_marginRight="10dp"
+        android:text="@string/highHazard"
+        android:textColor="#FFFFFF"
+        app:backgroundTint="#F44336"
+        android:visibility="invisible"/>
 
     <SearchView
         android:id="@+id/SearchMap"
