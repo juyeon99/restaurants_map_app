@@ -9,7 +9,7 @@ public class PassingSearch {
         }
         return instance;
     }
-    private String searchValue="";
+    private String searchValue = "";
 
     public String getSearchValue() {
         return searchValue;
@@ -18,9 +18,9 @@ public class PassingSearch {
         this.searchValue = searchValue;
     }
     public boolean isEmpty(){
-        if(this.searchValue.equals("")){
+        if(this.searchValue.equals("")) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }

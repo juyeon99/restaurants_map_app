@@ -145,7 +145,8 @@ public class MapsActivity extends AppCompatActivity {
         startGps(this.getIntent());
 
         //iteration 3 search
-        SearchView searchView=findViewById(R.id.SearchMap);
+        SearchView searchView = findViewById(R.id.SearchMap);
+        searchView.setQuery(passingSearch.getSearchValue(),false);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query){
@@ -162,20 +163,26 @@ public class MapsActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String newText) {
                 //although in the email, prof Jack said, he will assume to see the result after press enter,
-                //it is nicer to see the changes will user typing
-                //passingSearch.setSearchValue(newText);
-                //MapsActivity.this.renderer.getFilter().filter(passingSearch.getSearchValue());
+                //it is nicer to see the changes while user types
                 if (newText.isEmpty()) {
                     btnFav.setVisibility(View.INVISIBLE);
                     btnLow.setVisibility(View.INVISIBLE);
                     btnModerate.setVisibility(View.INVISIBLE);
                     btnHigh.setVisibility(View.INVISIBLE);
+                } else {
+                    btnFav.setVisibility(View.VISIBLE);
+                    btnLow.setVisibility(View.VISIBLE);
+                    btnModerate.setVisibility(View.VISIBLE);
+                    btnHigh.setVisibility(View.VISIBLE);
                 }
+
+                passingSearch.setSearchValue(newText);
+                MapsActivity.this.renderer.getFilter().filter(passingSearch.getSearchValue());
                 return false;
             }
         });
 
-        searchView.setQuery(passingSearch.getSearchValue(),false);
+        //searchView.setQuery(passingSearch.getSearchValue(),false);
         if (!passingSearch.getSearchValue().isEmpty()) {
             Toast.makeText(getApplicationContext(), "Click the search bar and press enter to show the searched result", Toast.LENGTH_SHORT).show();
         }

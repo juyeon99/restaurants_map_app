@@ -1,7 +1,9 @@
 package com.example.projecti3.UI;
 
-// 1. Display list of all restaurants
-// It is a class that can be used in the RestaurantAdapter.
+/**
+ * Can get the data needed for RestaurantAdapter
+ */
+
 public class RecentRestaurant {
     String name;
     int image;

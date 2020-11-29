@@ -21,8 +21,10 @@ import java.util.List;
 import com.example.projecti3.Model.SingletonRestaurantManager;
 import com.example.projecti3.R;
 
-// 1. Display list of all restaurants
-// Adapter of the ListView for displaying all the lists on the first page
+/**
+ * Adapter of the ListView which helps display all the restaurants on the restaurant list page
+ */
+
 public class RestaurantAdapter extends ArrayAdapter<RecentRestaurant> implements Filterable {
     private Context mContext;
     private int mResource;
@@ -33,8 +35,8 @@ public class RestaurantAdapter extends ArrayAdapter<RecentRestaurant> implements
         super(context, resource, object);
         this.mContext = context;
         this.mResource = resource;
-        this.objectList=object;
-        objectListAll=new ArrayList<>();
+        this.objectList = object;
+        objectListAll = new ArrayList<>();
         objectListAll.addAll(objectList);
     }
 
@@ -79,16 +81,16 @@ public class RestaurantAdapter extends ArrayAdapter<RecentRestaurant> implements
     public Filter getFilter(){
         return filter;
     }
-    Filter filter=new Filter() {
+    Filter filter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             //create a temp restaurant
             List<RecentRestaurant> filteredList = new ArrayList<>();
-            //when the input is empty, we resee all the resaturants list
+            //when the input is empty, we resee all the restaurants list
             if (constraint == null || constraint.length() == 0) {
                 filteredList.addAll(objectListAll);
             } else {
-                //search all the resaturant list
+                //search all the restaurant list
                 //we find the one's name with the same order of inputs
                 for (RecentRestaurant restaurant: objectListAll) {
                     if (restaurant.getName().toLowerCase().contains(constraint.toString().toLowerCase())) {
@@ -96,7 +98,7 @@ public class RestaurantAdapter extends ArrayAdapter<RecentRestaurant> implements
                     }
                 }
             }
-            //create the resurn value
+            //create the return value
             FilterResults filterResults = new FilterResults();
             filterResults.values = filteredList;
             return filterResults;
