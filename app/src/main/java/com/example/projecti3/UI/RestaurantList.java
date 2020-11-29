@@ -183,20 +183,20 @@ public class RestaurantList extends AppCompatActivity {
             helperOrdering(orderedList);
             if(orderedList.size()!=0){
                 numIssues = orderedList.get(0).getNumIssues();
-                if (orderedList.get(0).getHazardLevel().equals("Low")) {
-                    hazardLevel = "Low";
+                if (orderedList.get(0).getHazardLevel().equals(getString(R.string.lowHazard))) {
+                    hazardLevel = getString(R.string.lowHazard);
                     hazardIcon = R.drawable.greencircle;
-                } else if (orderedList.get(0).getHazardLevel().equals("Moderate")) {
-                    hazardLevel = "Moderate";
+                } else if (orderedList.get(0).getHazardLevel().equals(getString(R.string.moderateHazard))) {
+                    hazardLevel = getString(R.string.moderateHazard);
                     hazardIcon = R.drawable.orangecircle;
-                } else if (orderedList.get(0).getHazardLevel().equals("High")) {
-                    hazardLevel = "High";
+                } else if (orderedList.get(0).getHazardLevel().equals(getString(R.string.highHazard))) {
+                    hazardLevel = getString(R.string.highHazard);
                     hazardIcon = R.drawable.redcircle;
                 }
             }
-            else{
-                hazardLevel="None";
-                hazardIcon=0;
+            else {
+                hazardLevel = getString(R.string.none);
+                hazardIcon = 0;
             }
             Calendar cal = Calendar.getInstance();
             int year1 = cal.get(Calendar.YEAR);
@@ -213,9 +213,9 @@ public class RestaurantList extends AppCompatActivity {
 
             int diff = calcDate(today, recentDate);
             if (diff >= 0 && diff < 30) {
-                date = (diff + " days");
+                date = (diff + getString(R.string.days));
             } else if (diff < 0) {
-                date = "N/A";
+                date = getString(R.string.notAvailable);
             } else if (diff >= 30 && diff < 365) {
                 date = (getMonth(month2) + " " + day2);
             } else {

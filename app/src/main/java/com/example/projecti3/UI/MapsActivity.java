@@ -184,7 +184,7 @@ public class MapsActivity extends AppCompatActivity {
 
         //searchView.setQuery(passingSearch.getSearchValue(),false);
         if (!passingSearch.getSearchValue().isEmpty()) {
-            Toast.makeText(getApplicationContext(), "Click the search bar and press enter to show the searched result", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), getString(R.string.clickSearchBar), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -205,11 +205,9 @@ public class MapsActivity extends AppCompatActivity {
                             gMap = googleMap;
                             gMap.getUiSettings().setZoomControlsEnabled(true);
                             LatLng currentLatLng = new LatLng(location.getLatitude(), location.getLongitude());
-                            MarkerOptions options = new MarkerOptions().position(currentLatLng).title("Current Location");
+                            MarkerOptions options = new MarkerOptions().position(currentLatLng).title(getString(R.string.curLocation));
                             options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
-                            options.title("This is where you are.");
-                            // gMap.addMarker(options).showInfoWindow();
-                            //moveCamera(currentLatLng, 5);
+                            options.title(getString(R.string.currentLocation));
                             moveCamera(currentLatLng, DEFAULT_ZOOM);
                             if (ActivityCompat.checkSelfPermission(MapsActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(MapsActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                                 return;
@@ -250,15 +248,15 @@ public class MapsActivity extends AppCompatActivity {
                 helperOrdering(orderedList);
                 String level = "";
                 if (orderedList.size() != 0) {
-                    if (orderedList.get(0).getHazardLevel().equals("Low")) {
+                    if (orderedList.get(0).getHazardLevel().equals(this.getResources().getString(R.string.lowHazard))) {
                         options.icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.green_map_marker));
                         level = getApplicationContext().getResources().getString(R.string.lowHazard);
-                    } else if (orderedList.get(0).getHazardLevel().equals("Moderate")) {
+                    } else if (orderedList.get(0).getHazardLevel().equals(this.getResources().getString(R.string.moderateHazard))) {
                         options.icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.orange_map_marker));
-                        level = getApplicationContext().getResources().getString(R.string.moderateHazard);;
-                    } else if (orderedList.get(0).getHazardLevel().equals("High")) {
+                        level = getApplicationContext().getResources().getString(R.string.moderateHazard);
+                    } else if (orderedList.get(0).getHazardLevel().equals(this.getResources().getString(R.string.highHazard))) {
                         options.icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.red_map_marker));
-                        level = getApplicationContext().getResources().getString(R.string.highHazard);;
+                        level = getApplicationContext().getResources().getString(R.string.highHazard);
                     }
                 } else {
                     options.icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.orange_map_marker));
@@ -269,7 +267,7 @@ public class MapsActivity extends AppCompatActivity {
                 String whatHazard = getApplicationContext().getResources().getString(R.string.whatHazard);
                 String mostRecent = getApplicationContext().getResources().getString(R.string.mostRecent);
                 String snippet = address  + ": " + res.getAddress() + "\n"
-                        + whatHazard  +" (" + mostRecent + "): "+level ;
+                        + whatHazard  +" (" + mostRecent + "): " + level ;
                 options.snippet(snippet);
 
                 options.title(res.getName());
@@ -308,7 +306,7 @@ public class MapsActivity extends AppCompatActivity {
             gMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                 @Override
                 public boolean onMarkerClick(Marker marker) {
-                    if(marker.getTitle().equals("This is where you are.")){
+                    if(marker.getTitle().equals(getString(R.string.currentLocation))){
                         return false;
                     }
                     gMap.setInfoWindowAdapter(new CustomInfo(MapsActivity.this));
@@ -399,9 +397,9 @@ public class MapsActivity extends AppCompatActivity {
                                 LatLng currentLatLng = new LatLng(latitude,longitude);
                                 moveCamera(currentLatLng, 20);
                                 Toast.makeText(getApplicationContext(),
-                                        "Name: "+list.get(index).getName()+"\n"+
-                                                "Address: "+list.get(index).getAddress()+"\n"+
-                                                "Click this peg for more information.",
+                                        getString(R.string.name) + " " + list.get(index).getName() + "\n" +
+                                                getString(R.string.address) + ": " + list.get(index).getAddress() + "\n" +
+                                                getString(R.string.clickPeg),
                                         Toast.LENGTH_LONG).show();
 
                             }

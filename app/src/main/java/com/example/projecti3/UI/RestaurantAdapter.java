@@ -64,14 +64,14 @@ public class RestaurantAdapter extends ArrayAdapter<RecentRestaurant> implements
         date.setText(theDate +": " + getItem(position).getHowLongAgo());
         image.setImageResource(getItem(position).getImage());
         hazardIcon.setImageResource(getItem(position).getHazardIcon());
-        if (getItem(position).getHazardLevel().equals("Low")) {
+        if (getItem(position).getHazardLevel().equals(mContext.getString(R.string.lowHazard))) {
             hazardLevel.setTextColor(ContextCompat.getColor(mContext, R.color.lowLime));
-        } else if (getItem(position).getHazardLevel().equals("Moderate")) {
+        } else if (getItem(position).getHazardLevel().equals(mContext.getString(R.string.moderateHazard))) {
             hazardLevel.setTextColor(ContextCompat.getColor(mContext, R.color.colorModerateOrange));
-        } else if (getItem(position).getHazardLevel().equals("High")) {
+        } else if (getItem(position).getHazardLevel().equals(mContext.getString(R.string.highHazard))) {
             hazardLevel.setTextColor(ContextCompat.getColor(mContext, R.color.colorDangerRed));
         }
-        if(getItem(position).fav.equals("1")) {
+        if (getItem(position).fav.equals("1")) {
             fav.setBackgroundResource(R.drawable.fav);
         }
         return convertView;

@@ -35,8 +35,11 @@ public class MarkerClusterRenderer extends DefaultClusterRenderer<MyItem>{
     //ClusterManager<MyItem> objectListAll;
     List<MyItem> objectListAll;
     ClusterManager<MyItem> objectList;
+    private Context mContext;
+
     public MarkerClusterRenderer(Context context, GoogleMap map, ClusterManager<MyItem> clusterManager) {
         super(context, map, clusterManager);
+         this.mContext = context;
          this.objectList = clusterManager;
          objectListAll = new ArrayList<>();
          objectListAll.addAll(objectList.getAlgorithm().getItems());
@@ -45,16 +48,13 @@ public class MarkerClusterRenderer extends DefaultClusterRenderer<MyItem>{
 
     @Override
     protected void onBeforeClusterItemRendered(MyItem item, MarkerOptions options) {
-        //String low = String.valueOf(R.string.lowHazard);
-        //String moderate = String.valueOf(R.string.moderateHazard);
-        //String high = String.valueOf(R.string.highHazard);
-        if (item.getSnippet().contains("Low")) {
+        if (item.getSnippet().contains(mContext.getString(R.string.lowHazard))) {
             options.icon(BitmapDescriptorFactory.fromResource(R.drawable.green_map_marker));
-        } else if (item.getSnippet().contains("Moderate")) {
+        } else if (item.getSnippet().contains(mContext.getString(R.string.moderateHazard))) {
             options.icon(BitmapDescriptorFactory.fromResource(R.drawable.orange_map_marker));
-        } else if (item.getSnippet().contains("High")) {
+        } else if (item.getSnippet().contains(mContext.getString(R.string.highHazard))) {
             options.icon(BitmapDescriptorFactory.fromResource(R.drawable.red_map_marker));
-        }else {
+        } else {
             options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
         }
         options.snippet(item.getSnippet());
