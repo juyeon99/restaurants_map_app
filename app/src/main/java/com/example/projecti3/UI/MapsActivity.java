@@ -89,6 +89,9 @@ public class MapsActivity extends AppCompatActivity {
     SingletonRestaurantManager manager;
     List<Restaurant> sortedRestaurantList;
     PassingSearch passingSearch= PassingSearch.getInstance();
+
+    Button btnFav, btnLow, btnModerate, btnHigh;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -113,6 +116,11 @@ public class MapsActivity extends AppCompatActivity {
                 MapsActivity.this.startActivityForResult(intent,1);
             }
         });
+
+        btnFav = (Button) findViewById(R.id.btnFav);
+        btnLow = (Button) findViewById(R.id.btnLow);
+        btnModerate = (Button) findViewById(R.id.btnModerate);
+        btnHigh = (Button) findViewById(R.id.btnHigh);
 
         for (Restaurant res : SingletonRestaurantManager.getInstance()) {
             restaurantArrayList.add(res);
@@ -141,19 +149,32 @@ public class MapsActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query){
+                btnFav.setVisibility(View.VISIBLE);
+                btnLow.setVisibility(View.VISIBLE);
+                btnModerate.setVisibility(View.VISIBLE);
+                btnHigh.setVisibility(View.VISIBLE);
+
                 passingSearch.setSearchValue(query);
                 MapsActivity.this.renderer.getFilter().filter(passingSearch.getSearchValue());
                 return false;
             }
+
             @Override
             public boolean onQueryTextChange(String newText) {
                 //although in the email, prof Jack said, he will assume to see the result after press enter,
                 //it is nicer to see the changes will user typing
                 //passingSearch.setSearchValue(newText);
                 //MapsActivity.this.renderer.getFilter().filter(passingSearch.getSearchValue());
+                if (newText.isEmpty()) {
+                    btnFav.setVisibility(View.INVISIBLE);
+                    btnLow.setVisibility(View.INVISIBLE);
+                    btnModerate.setVisibility(View.INVISIBLE);
+                    btnHigh.setVisibility(View.INVISIBLE);
+                }
                 return false;
             }
         });
+
         searchView.setQuery(passingSearch.getSearchValue(),false);
         if (!passingSearch.getSearchValue().isEmpty()) {
             Toast.makeText(getApplicationContext(), "Click the search bar and press enter to show the searched result", Toast.LENGTH_SHORT).show();
@@ -269,7 +290,7 @@ public class MapsActivity extends AppCompatActivity {
                         return;
                     }
                     //this index is of a shorted restaurant list
-                    int index= (int) marker.getTag();
+                    int index = (int) marker.getTag();
                     //simple test
                     //Toast.makeText(getApplicationContext(), ""+marker.getTag(), Toast.LENGTH_SHORT).show();
                     Intent intent = RestaurantDetailsUI.makeDetailIntent(MapsActivity.this,index );
