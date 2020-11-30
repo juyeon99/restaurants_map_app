@@ -1,28 +1,22 @@
 package com.example.projecti3.UI;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class FavItem {
-    private String name;
-    private int position;
-    private String item_image;
-    private int latest;
+    String name;
+    int image;
+    int numIssues;
+    int hazardIcon;
+    String hazardLevel;
+    String howLongAgo;
+    String fav;
 
-    private List<DBAdapter> favItem = new ArrayList<>();
-
-    public List<DBAdapter> getAll(){
-        return favItem;
-    }
-
-    public void add(DBAdapter db){ this.favItem.add(db);}
-
-    public int getLatest() {
-        return latest;
-    }
-
-    public void setLatest(int latest) {
-        this.latest = latest;
+    public FavItem(String name, int image, int numIssues, int hazardIcon, String hazardLevel, String howLongAgo,String fav) {
+        this.name = name;
+        this.image = image;
+        this.numIssues = numIssues;
+        this.hazardIcon = hazardIcon;
+        this.hazardLevel = hazardLevel;
+        this.howLongAgo = howLongAgo;
+        this.fav=fav;
     }
 
     public String getName() {
@@ -33,19 +27,45 @@ public class FavItem {
         this.name = name;
     }
 
-    public int getPosition() {
-        return position;
+    public int getImage() {
+        return image;
     }
 
-    public void setPosition(int position) {
-        this.position = position;
+    public void setImage(int image) {
+        this.image = image;
     }
 
-    public String  getItem_image() {
-        return item_image;
+    public int getNumIssues() {
+        return numIssues;
     }
 
-    public void setItem_image(String item_image) {
-        this.item_image = item_image;
+    public void setNumIssues(int numIssues) {
+        this.numIssues = numIssues;
     }
+
+    public int getHazardIcon() {
+        return hazardIcon;
+    }
+
+    public void setHazardIcon(int hazardIcon) {
+        this.hazardIcon = hazardIcon;
+    }
+
+    public String getHazardLevel() {
+        return hazardLevel;
+    }
+
+
+    public void setHazardLevel(String hazardLevel) {
+        this.hazardLevel = hazardLevel;
+    }
+
+    public String getHowLongAgo() {
+        return howLongAgo;
+    }
+
+    public void setHowLongAgo(String howLongAgo) {
+        this.howLongAgo = howLongAgo;
+    }
+
 }

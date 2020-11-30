@@ -121,6 +121,9 @@ public class Restaurant {
     public String getLatestHazard() {
         return SingletonInspectionManager.getInstance().getHazardLevel(indexOfLatest);
     }
+    public int getLatestNumIssues() {
+        return SingletonInspectionManager.getInstance().getNumIssues(indexOfLatest);
+    }
     public List<Inspection> getAllInspectionList() {
         return SingletonInspectionManager.getInstance().getAll();
     }

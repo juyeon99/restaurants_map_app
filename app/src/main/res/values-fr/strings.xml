@@ -45,4 +45,5 @@
     <string name="downloadingData">Téléchargement De Données</string>
     <string name="installingData">Installation Des Données</string>
     <string name="cancelUpdate">Annuler La Mise À Jour</string>
+    <string name="favsUpdate">Un ou plusieurs de vos restaurants préférés ont un nouvelle Inspection</string>
 </resources>

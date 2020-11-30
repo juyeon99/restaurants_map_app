@@ -7,29 +7,29 @@
     android:padding="16dp">
 
     <ImageView
-        android:id="@+id/icon"
+        android:id="@+id/pic"
         android:layout_width="130dp"
         android:layout_height="130dp" />
 
     <TextView
-        android:id="@+id/restaurant_name"
+        android:id="@+id/rest_name"
         android:layout_width="291dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_toRightOf="@+id/icon"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@+id/pic"
         android:text="@string/str_restaurant_name"
         android:textColor="#000000"
         android:textSize="23sp"
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/recentInspection"
+        android:id="@+id/recentInsp"
         android:layout_width="241dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/restaurant_name"
-        android:layout_marginLeft="10dp"
+        android:layout_below="@+id/rest_name"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="8dp"
-        android:layout_toRightOf="@+id/icon"
+        android:layout_toEndOf="@+id/pic"
         android:text="@string/str_recent_inspection_report"
         android:textAllCaps="false"
         android:textColor="#364CC8"
@@ -37,51 +37,51 @@
         android:textStyle="bold|italic" />
 
     <TextView
-        android:id="@+id/issues_found"
+        android:id="@+id/issues"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/recentInspection"
-        android:layout_marginLeft="10dp"
+        android:layout_below="@+id/recentInsp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="8dp"
-        android:layout_toRightOf="@+id/icon"
+        android:layout_toEndOf="@+id/pic"
         android:text="@string/str_num_issues"
         android:textColor="#3E3C3C"
         android:textSize="15sp" />
 
     <ImageView
-        android:id="@+id/hazard_icon"
-        android:layout_below="@+id/issues_found"
-        android:layout_marginLeft="10dp"
-        android:layout_toRightOf="@+id/icon"
+        android:id="@+id/hzd_icon"
+        android:layout_below="@+id/issues"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@+id/pic"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginTop="8dp" />
 
     <TextView
-        android:id="@+id/hazard_level"
+        android:id="@+id/hzd_level"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/issues_found"
-        android:layout_marginLeft="10dp"
+        android:layout_below="@+id/issues"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
-        android:layout_toRightOf="@+id/hazard_icon"
+        android:layout_toEndOf="@+id/hzd_icon"
         android:text="@string/str_haz_level"
         android:textSize="15sp" />
 
     <TextView
-        android:id="@+id/date"
+        android:id="@+id/insp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_toRightOf="@+id/icon"
-        android:layout_below="@+id/hazard_icon"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@+id/pic"
+        android:layout_below="@+id/hzd_icon"
         android:layout_marginTop="4dp"
         android:text="@string/str_how_long_ago"
         android:textColor="#3E3C3C"
         android:textSize="15sp" />
 
     <ImageView
-        android:id="@+id/favrate"
+        android:id="@+id/favoriteImg"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_alignParentTop="true"
