@@ -90,7 +90,7 @@ public class DBAdapter {
 
     public void deleteRow(long rowID){
         String where = KEY_ROWID + "=" + rowID;
-        Log.d("My activity", "row is " + rowID);
+        //Log.d("My activity", "row is " + rowID);
         db.delete(DATABASE_TABLE, where, null);
     }
 
