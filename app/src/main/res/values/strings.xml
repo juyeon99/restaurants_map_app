@@ -46,4 +46,5 @@
     <string name="installingData">Installing Data</string>
     <string name="cancelUpdate">Cancel Update</string>
     <string name="favsUpdate">One or More of your Favorite Restaurants has a new Inspection</string>
+    <string name="seeFavs_">Would you like to see it?</string>
 </resources>

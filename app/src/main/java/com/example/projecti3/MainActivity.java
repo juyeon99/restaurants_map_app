@@ -609,7 +609,7 @@ public class MainActivity extends AppCompatActivity {
         String no = "No";
 
         alert.setTitle( favsUpdate + "!!");
-        alert.setMessage("would you like to take a look?");
+        alert.setMessage(R.string.seeFavs_);
 
         alert.setPositiveButton(yes, new DialogInterface.OnClickListener() {
             @Override
