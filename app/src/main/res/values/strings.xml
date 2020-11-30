@@ -15,7 +15,7 @@
     <string name="str_num_issues"># of Issues found</string>
     <string name="str_haz_level">Hazard Level</string>
     <string name="str_how_long_ago">How long ago</string>
-    <string name="str_recent_inspection_report">------Recent Inspection Report------</string>
+    <string name="str_recent_inspection_report">-----Recent Inspection Report-----</string>
     <string name="back">back</string>
     <string name="show_lists">Show Lists</string>
     <string name="hintMapSearch">Enter the name of the restaurant</string>

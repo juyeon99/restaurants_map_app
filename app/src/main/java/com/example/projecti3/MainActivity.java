@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,6 +17,17 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.projecti3.Model.DownloadRequest;
+import com.example.projecti3.Model.InfoRequest;
+import com.example.projecti3.Model.Inspection;
+import com.example.projecti3.Model.Restaurant;
+import com.example.projecti3.Model.SaveState;
+import com.example.projecti3.Model.SingletonInspectionManager;
+import com.example.projecti3.Model.SingletonRestaurantManager;
+import com.example.projecti3.UI.DBAdapter;
+import com.example.projecti3.UI.FavList;
+import com.example.projecti3.UI.MapsActivity;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -24,20 +36,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import com.example.projecti3.Model.DownloadRequest;
-import com.example.projecti3.Model.InfoRequest;
-import com.example.projecti3.Model.Inspection;
-import com.example.projecti3.Model.Restaurant;
-import com.example.projecti3.Model.SaveState;
-import com.example.projecti3.Model.SingletonInspectionManager;
-import com.example.projecti3.Model.SingletonRestaurantManager;
-import com.example.projecti3.UI.MapsActivity;
+import static com.example.projecti3.UI.DBAdapter.COL_LATEST;
+import static com.example.projecti3.UI.DBAdapter.COL_TRACKING;
 
 /**
  * Main activity --> displays welcome screen and then after 3.5 seconds it automatically switches to RestaurantList
@@ -53,12 +58,16 @@ public class MainActivity extends AppCompatActivity {
     private long tStart;
     private int counter = 0;
     boolean bufferRest = false;
+
     private String downloadRestarauntCSVLink;
     private String downloadInspectionCSVLink;
+
     private Boolean availableUpdate;
     private Boolean firstRun;
+
     private DownloadRequest dr1;
     private DownloadRequest dr2;
+
     Inspection inspection;
     Restaurant restaurant;
     SingletonRestaurantManager manager;
@@ -111,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void getJSONData(boolean downloadCSV, int chosenDownload) {
-        if(downloadCSV == true) {
+        if(downloadCSV) {
             if(chosenDownload == 1) {
                 InfoRequest ir = new InfoRequest(getApplicationContext(), downloadCSV);
                 ir.execute(InfoRequest.RESTARAUNT_URL);
@@ -259,13 +268,43 @@ public class MainActivity extends AppCompatActivity {
         readRestaurantList();
         readInspectionList();
 
+        updateDB();
+
         if(pD != null && pD.isShowing()) {
             pD.dismiss();
             pD.cancel();
-
         }
 
+        if(needsUpdateFav){
+            favUpdated();
+        }
+        else {
+            toMaps();
+        }
+    }
+
+    public void toMaps(){
+        if(alertD != null && alertD.isShowing()){
+            alertD.dismiss();
+            alertD.cancel();
+        }
+        if(db != null) {
+            closeDB();
+        }
         Intent intent = new Intent(MainActivity.this, MapsActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    public void toFavList(){
+        if(alertD != null && alertD.isShowing()){
+            alertD.dismiss();
+            alertD.cancel();
+        }
+
+        if(db != null) {
+            closeDB();
+        }        Intent intent = new Intent(MainActivity.this, FavList.class);
         startActivity(intent);
         finish();
     }
@@ -401,9 +440,6 @@ public class MainActivity extends AppCompatActivity {
         List<Restaurant> peakListTwo = manager.getAll();
         List<Inspection> peakListOne = inspectionManager.getAll();
 
-        Set set = new HashSet();
-        set.addAll(peakListOne);
-
         if(peakListOne != null && peakListTwo != null){
             int c = 0;
             for(Inspection peak : peakListOne){
@@ -455,6 +491,9 @@ public class MainActivity extends AppCompatActivity {
                 manager = SingletonRestaurantManager.getInstance();
 
                 restaurant = new Restaurant();
+
+                restaurant.setFavStatus("0");
+
                 if(token.length > trackingNum) {
                     restaurant.setTrackingNum(token[trackingNum].replaceAll("\"", ""));
                 }
@@ -466,14 +505,12 @@ public class MainActivity extends AppCompatActivity {
                     restaurant.setAddress(token[address].replaceAll("\"", ""));
                 }
 
-
                 if(token.length > latitude && token[latitude].matches("[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)")) {
                     restaurant.setLatitude(Float.parseFloat(token[latitude]));
                 }
                 if(token.length > longitude && token[longitude].matches("[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)")) {
                     restaurant.setLongitude(Float.parseFloat(token[longitude]));
                 }
-
 
                 manager.add(restaurant);
             }
@@ -491,6 +528,133 @@ public class MainActivity extends AppCompatActivity {
         availableUpdate = Boolean.parseBoolean(SaveState.getInstance(getApplicationContext()).restoreData("updateAvailable",Boolean.toString(true)));
         //String returnValue = SaveState.getInstance(getApplicationContext()).restoreData(key,defVal);
     }
+
+    private DBAdapter db;
+    private AlertDialog alertD;
+    List<Integer> lastTimeLatest;
+    private boolean needsUpdateFav = false;
+
+    private void openDB() {
+        db = new DBAdapter(this);
+        db.open();
+    }
+
+    private void updateDB(){
+
+        List<String> favTrackingNum = new ArrayList<>();
+        lastTimeLatest = new ArrayList<>();
+
+        SingletonRestaurantManager manager = SingletonRestaurantManager.getInstance();
+        List<Restaurant> myRestaurants = manager.getAll();
+
+        openDB();
+
+        Cursor cursor = db.fetch();
+        if (cursor.moveToFirst()) {
+            do {
+                favTrackingNum.add(cursor.getString(COL_TRACKING));
+                lastTimeLatest.add(cursor.getInt(COL_LATEST));
+
+            } while (cursor.moveToNext());
+        }
+        closeDB();
+
+        openDB();
+        db.deleteALL();
+
+        Log.d("My Activity", "fav size " + favTrackingNum.size());
+
+        for(int k = 0; k < favTrackingNum.size(); k++) {
+            for (int j = 0; j < myRestaurants.size(); j++) {
+                if (favTrackingNum.get(k).equals(myRestaurants.get(j).getTrackingNum())) {
+                    myRestaurants.get(j).setFavStatus("1");
+                    Log.d("My Activity", "status " + k + " == " + myRestaurants.get(j).getFavStatus());
+
+                    openDB();
+
+                    db.insertRow( myRestaurants.get(j).getName(), myRestaurants.get(j).getTrackingNum(), j, myRestaurants.get(j).getFavStatus(),
+                            myRestaurants.get(j).getLatestInspectionDate(myRestaurants.get(j).getAllInspection(), myRestaurants.get(j).getTrackingNum()),
+                            myRestaurants.get(j).getLatestNumIssues(), myRestaurants.get(j).getLatestHazard(), myRestaurants.get(j).getAllInspection());
+
+                    Log.d("My Activity", "row is " +" " + favTrackingNum.get(k));
+                    Log.d("My Activity", "info is " + myRestaurants.get(j).getName() + " " + myRestaurants.get(j).getTrackingNum() + " " + j
+                            + " " + myRestaurants.get(j).getFavStatus() + " " + myRestaurants.get(j).getLatestInspectionDate(myRestaurants.get(j).getAllInspection(), myRestaurants.get(j).getTrackingNum())
+                            + " " + myRestaurants.get(j).getLatestNumIssues() + " " + myRestaurants.get(j).getLatestHazard() + " " + myRestaurants.get(j).getAllInspection());
+
+
+                    Log.d("My Activity", "row updated ");
+
+                    closeDB();
+
+                    if (lastTimeLatest.get(k) != myRestaurants.get(j).getLatestInspectionDate(myRestaurants.get(j).getAllInspection(), myRestaurants.get(j).getTrackingNum())) {
+                        Log.d("My Activity", "latest compare " + (lastTimeLatest.get(k)) + " == " + myRestaurants.get(j).getLatestInspectionDate(myRestaurants.get(j).getAllInspection(), myRestaurants.get(j).getTrackingNum()));
+
+                        needsUpdateFav = true;
+                    }
+                    Log.d("My Activity", "latest " + myRestaurants.get(j).getLatestInspectionDate(myRestaurants.get(j).getAllInspection(), myRestaurants.get(j).getTrackingNum()));
+                }
+            }
+        }
+    }
+
+    private void closeDB() {
+        db.close();
+    }
+
+    private void favUpdated() {
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        String favsUpdate = getApplicationContext().getResources().getString(R.string.favsUpdate);
+
+        String yes = "Yes";
+        String no = "No";
+
+        alert.setTitle( favsUpdate + "!!");
+        alert.setMessage(R.string.seeFavs_);
+
+        alert.setPositiveButton(yes, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int which) {
+                dialogInterface.cancel();
+                dialogInterface.dismiss();
+
+               /* db.deleteALL();
+                for(int i = 0; i < favTrackingNum.size(); i++){
+                    for(int j = 0; j < myRestaurants.size(); j++){
+                        if(myRestaurants.get(j).getTrackingNum().equals(favTrackingNum.get(i))){
+                            db.insertRow(myRestaurants.get(j).getName(), myRestaurants.get(j).getTrackingNum(), j, myRestaurants.get(j).getFavStatus(),
+                                    myRestaurants.get(j).getLatestInspectionDate(myRestaurants.get(j).getAllInspection(), myRestaurants.get(j).getTrackingNum()),
+                                    myRestaurants.get(j).getLatestNumIssues(), myRestaurants.get(j).getLatestHazard(), myRestaurants.get(j).getAllInspection());
+                        }
+                    }
+                }*/
+
+                alertD.dismiss();
+                alertD.cancel();
+                toFavList();
+            }
+        });
+
+        alert.setNegativeButton(no, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int which) {
+                dialogInterface.cancel();
+                dialogInterface.dismiss();
+                alertD.dismiss();
+                alertD.cancel();
+                toMaps();
+            }
+        });
+
+//        alertDialog.dismiss();
+//        alertDialog.cancel();
+        runOnUiThread(new Runnable() {
+            public void run() {
+                alertD = alert.create();
+                alertD.show();
+            }
+        });
+    }
+
 
     private void requestPermissions() {
         if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
@@ -516,4 +680,27 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(db != null) {
+            closeDB();
+        }
+        if(alertD != null && alertD.isShowing()){
+            alertD.dismiss();
+            alertD.cancel();
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if(db != null) {
+            closeDB();
+        }
+        if(alertD != null && alertD.isShowing()){
+            alertD.dismiss();
+            alertD.cancel();
+        }
+    }
 }

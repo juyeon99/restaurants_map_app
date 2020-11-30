@@ -5,18 +5,20 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.example.projecti3.Model.Inspection;
 import com.example.projecti3.Model.Restaurant;
 import com.example.projecti3.Model.SingletonRestaurantManager;
 import com.example.projecti3.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 //author: tianyu che
 //this class is shows the details of a particular restaurant which clicked
@@ -30,6 +32,8 @@ public class RestaurantDetailsUI extends AppCompatActivity {
     private TextView addressText;
     private TextView gpsText;
     private ListView inspectionList;
+    private int index;
+    private DBAdapter db;
     //get the info from the privious activity
     public static Intent makeDetailIntent(Context c, int restaurantIdx){
         Intent intent=new Intent(c, RestaurantDetailsUI.class);
@@ -40,6 +44,7 @@ public class RestaurantDetailsUI extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_restaurant_details_report);
+        openDB();
 
         //find where the texts are
         storeUiReferences();
@@ -71,12 +76,43 @@ public class RestaurantDetailsUI extends AppCompatActivity {
                     }
                 }
         );
+
+        ImageView fav = (ImageView) findViewById(R.id.FAV);
+
+        if(restaurant.getFavStatus().equals("1")){
+            fav.setBackgroundResource(R.drawable.fav);
+        }
+
+        fav.setOnClickListener(v -> {
+            if (restaurant.getFavStatus().equals("0")){
+                restaurant.setFavStatus("1");
+                db.insertRow(restaurant.getName(), restaurant.getTrackingNum(), index, restaurant.getFavStatus(),
+                        restaurant.getLatestInspectionDate(restaurant.getAllInspection(), restaurant.getTrackingNum()), restaurant.getLatestNumIssues(),
+                        restaurant.getLatestHazard(), restaurant.getAllInspection());
+                fav.setBackgroundResource(R.drawable.fav);
+            }
+            else {
+                restaurant.setFavStatus("0");
+                db.deleteRow(db.getByTrackingNum(restaurant.getTrackingNum()));
+                fav.setBackgroundResource(R.drawable.fav_border);
+            }
+        });
+
         //iteration 2: Back-button behaviour
         //author:tianyu che
 
         //iteration 2: Back-button behaviour
         //author:tianyu che
         setOnGpsCoord();
+
+        Button btn = (Button)findViewById(R.id.backBTNN);
+
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(RestaurantDetailsUI.this, RestaurantList.class));
+            }
+        });
     }
     //iteration 2: Back-button behaviour
     private void setOnGpsCoord() {
@@ -94,6 +130,8 @@ public class RestaurantDetailsUI extends AppCompatActivity {
     }
     //iteration 2: Back-button behaviour
     public void onBackPressed() {
+        closeDB();
+        startActivity(new Intent(RestaurantDetailsUI.this, RestaurantList.class));
         finish();
     }
     private void helperOrdering(List<Inspection> orderedList) {
@@ -116,7 +154,7 @@ public class RestaurantDetailsUI extends AppCompatActivity {
         inspectionList=findViewById(R.id.listView);
     }
     private void extractExtras(Intent intent) {
-        int index = intent.getIntExtra(EXTRA_RESTAURANT_INDEX,-1);
+        index = intent.getIntExtra(EXTRA_RESTAURANT_INDEX,-1);
         SingletonRestaurantManager restaurantManager=SingletonRestaurantManager.getInstance();
         List<Restaurant> sortedRestaurantList = restaurantManager.sortAlphabetically();
         restaurant= sortedRestaurantList.get(index);
@@ -128,5 +166,14 @@ public class RestaurantDetailsUI extends AppCompatActivity {
         String latitude = getApplicationContext().getResources().getString(R.string.latitude);
         gpsText.setText(longitude + ": "+restaurant.getLongitude()+ " " + latitude
                 + ": "+restaurant.getLatitude());
+    }
+
+    private void openDB() {
+        db = new DBAdapter(this);
+        db.open();
+    }
+
+    private void closeDB() {
+        db.close();
     }
 }

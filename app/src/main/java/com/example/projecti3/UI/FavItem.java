@@ -1,10 +1,6 @@
 package com.example.projecti3.UI;
 
-/**
- * Can get the data needed for RestaurantAdapter
- */
-
-public class RecentRestaurant {
+public class FavItem {
     String name;
     int image;
     int numIssues;
@@ -13,7 +9,7 @@ public class RecentRestaurant {
     String howLongAgo;
     String fav;
 
-    public RecentRestaurant(String name, int image, int numIssues, int hazardIcon, String hazardLevel, String howLongAgo,String fav) {
+    public FavItem(String name, int image, int numIssues, int hazardIcon, String hazardLevel, String howLongAgo,String fav) {
         this.name = name;
         this.image = image;
         this.numIssues = numIssues;
@@ -71,4 +67,5 @@ public class RecentRestaurant {
     public void setHowLongAgo(String howLongAgo) {
         this.howLongAgo = howLongAgo;
     }
+
 }

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Toast;
@@ -46,9 +47,11 @@ import com.example.projecti3.R;
 // Pizza Hut: https://logos-download.com/3264-pizza-hut-logo-download.html
 // Mcdonalds: https://www.freepnglogos.com/images/mcdonalds-png-logo-2775.html
 
-// 1. Display list of all restaurants
-// It will display all the lists of the restaurants in alphabetical order.
-// The most recent inspections of each restaurant would be shown.
+/**
+ * Displays all the lists of the restaurants in alphabetical order.
+ * The most recent inspections of each restaurant would be shown.
+ */
+
 public class RestaurantList extends AppCompatActivity {
 
     ListView listView;
@@ -67,6 +70,7 @@ public class RestaurantList extends AppCompatActivity {
         listView.setOnItemClickListener(
                 (parent,view,position,id)->{
                     Intent intent = RestaurantDetailsUI.makeDetailIntent(RestaurantList.this, position);
+                    //Toast.makeText(getApplicationContext(), ""+SingletonRestaurantManager.getInstance().get(position).getFavStatus(), Toast.LENGTH_SHORT).show();
                     startActivity(intent);
                 }
         );
@@ -84,10 +88,10 @@ public class RestaurantList extends AppCompatActivity {
         });
         //iteration 3 search
         //Tutorial from:https://youtu.be/CTvzoVtKoJ8
-        SearchView searchView=findViewById(R.id.searchRL);
+        SearchView searchView = findViewById(R.id.searchRL);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public boolean onQueryTextSubmit(String query){
+            public boolean onQueryTextSubmit(String query) {
                 passingSearch.setSearchValue(query);
                 RestaurantList.this.restaurantAdapter.getFilter().filter(passingSearch.getSearchValue());
                 return false;
@@ -95,7 +99,7 @@ public class RestaurantList extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String newText) {
                 //although in the email, prof Jack said, he will assume to see the result after press enter,
-                //it is nicer to see the changes will user typing
+                //it is nicer to see the changes while user types
                 passingSearch.setSearchValue(newText);
                 RestaurantList.this.restaurantAdapter.getFilter().filter(passingSearch.getSearchValue());
                 return false;
@@ -104,8 +108,8 @@ public class RestaurantList extends AppCompatActivity {
         searchView.setQuery(passingSearch.getSearchValue(),false);
         //testing
         //Toast.makeText(getApplicationContext(), ""+passingSearch.getSearchValue(), Toast.LENGTH_SHORT).show();
-    }
 
+    }
     //back button behavior
     //to exit the app
     //source from: https://stackoverflow.com/questions/21253303/exit-android-app-on-back-pressed
@@ -133,7 +137,6 @@ public class RestaurantList extends AppCompatActivity {
         Restaurant restaurant = new Restaurant();
         List<Inspection> list;
         list = restaurant.getAllInspectionList();
-
         ArrayList<RecentRestaurant> arrayList = new ArrayList<>();
         String name;
         int image;
@@ -141,8 +144,9 @@ public class RestaurantList extends AppCompatActivity {
         int hazardIcon=0;
         String hazardLevel="";
         String date;
+        int i=0;
 
-        for (Restaurant sr : sortedRestaurantList) {
+        for (Restaurant sr : manager.getRestaurantManager()) {
             name = sr.getName();
             if (name.contains("A&W")) {
                 image= R.drawable.pattulo;
@@ -179,24 +183,21 @@ public class RestaurantList extends AppCompatActivity {
             helperOrdering(orderedList);
             if(orderedList.size()!=0){
                 numIssues = orderedList.get(0).getNumIssues();
-                if (orderedList.get(0).getHazardLevel().equals("Low")) {
-                    hazardLevel = "Low";
+                if (orderedList.get(0).getHazardLevel().equals(getString(R.string.lowHazard))) {
+                    hazardLevel = getString(R.string.lowHazard);
                     hazardIcon = R.drawable.greencircle;
-                } else if (orderedList.get(0).getHazardLevel().equals("Moderate")) {
-                    hazardLevel = "Moderate";
+                } else if (orderedList.get(0).getHazardLevel().equals(getString(R.string.moderateHazard))) {
+                    hazardLevel = getString(R.string.moderateHazard);
                     hazardIcon = R.drawable.orangecircle;
-                } else if (orderedList.get(0).getHazardLevel().equals("High")) {
-                    hazardLevel = "High";
+                } else if (orderedList.get(0).getHazardLevel().equals(getString(R.string.highHazard))) {
+                    hazardLevel = getString(R.string.highHazard);
                     hazardIcon = R.drawable.redcircle;
                 }
             }
-            else{
-                hazardLevel="None";
-                hazardIcon=0;
+            else {
+                hazardLevel = getString(R.string.none);
+                hazardIcon = 0;
             }
-
-
-
             Calendar cal = Calendar.getInstance();
             int year1 = cal.get(Calendar.YEAR);
             int month1 = cal.get(Calendar.MONTH) + 1;
@@ -212,18 +213,18 @@ public class RestaurantList extends AppCompatActivity {
 
             int diff = calcDate(today, recentDate);
             if (diff >= 0 && diff < 30) {
-                date = (diff + " days");
+                date = (diff + getString(R.string.days));
             } else if (diff < 0) {
-                date = "N/A";
+                date = getString(R.string.notAvailable);
             } else if (diff >= 30 && diff < 365) {
                 date = (getMonth(month2) + " " + day2);
             } else {
                 date = (getMonth(month2) + " " + year2);
             }
 
-            arrayList.add(new RecentRestaurant(name, image, numIssues, hazardIcon, hazardLevel, date));
+            arrayList.add(new RecentRestaurant(name, image, numIssues, hazardIcon, hazardLevel, date,SingletonRestaurantManager.getInstance().get(i).getFavStatus()));
+            i++;
         }
-
         restaurantAdapter = new RestaurantAdapter(this, R.layout.list_row, arrayList);
         listView.setAdapter(restaurantAdapter);
     }

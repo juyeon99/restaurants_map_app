@@ -34,6 +34,8 @@ public class Restaurant {
     private Float latitude;
     private Float longitude;
 
+    private String fav;
+
     private int images;
     private int hazardIcons;
 
@@ -119,6 +121,9 @@ public class Restaurant {
     public String getLatestHazard() {
         return SingletonInspectionManager.getInstance().getHazardLevel(indexOfLatest);
     }
+    public int getLatestNumIssues() {
+        return SingletonInspectionManager.getInstance().getNumIssues(indexOfLatest);
+    }
     public List<Inspection> getAllInspectionList() {
         return SingletonInspectionManager.getInstance().getAll();
     }
@@ -135,5 +140,13 @@ public class Restaurant {
                 address + ", " +
                 latitude + ", " +
                 longitude;
+    }
+
+    public void setFavStatus(String s) {
+        this.fav = s;
+    }
+
+    public String getFavStatus() {
+        return fav;
     }
 }
