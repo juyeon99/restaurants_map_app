@@ -111,8 +111,10 @@ public class RestaurantDetailsUI extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(comeFromForRD.getInstance().getSearchValue().equals("Map")){
+                if(comeFromForRD.getInstance().getSearchValue().equals("Map")) {
                     startActivity(new Intent(RestaurantDetailsUI.this, MapsActivity.class));
+                }else if (comeFromForRD.getInstance().getSearchValue().equals("FavList")){
+                    startActivity(new Intent(RestaurantDetailsUI.this, FavList.class));
                 }else{
                     startActivity(new Intent(RestaurantDetailsUI.this, RestaurantList.class));
                 }
@@ -136,7 +138,13 @@ public class RestaurantDetailsUI extends AppCompatActivity {
     //iteration 2: Back-button behaviour
     public void onBackPressed() {
         closeDB();
-        startActivity(new Intent(RestaurantDetailsUI.this, RestaurantList.class));
+        if(comeFromForRD.getInstance().getSearchValue().equals("Map")) {
+            startActivity(new Intent(RestaurantDetailsUI.this, MapsActivity.class));
+        }else if (comeFromForRD.getInstance().getSearchValue().equals("FavList")){
+            startActivity(new Intent(RestaurantDetailsUI.this, FavList.class));
+        }else{
+            startActivity(new Intent(RestaurantDetailsUI.this, RestaurantList.class));
+        }
         finish();
     }
     private void helperOrdering(List<Inspection> orderedList) {
