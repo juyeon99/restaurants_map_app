@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.projecti3.Model.Inspection;
 import com.example.projecti3.Model.Restaurant;
 import com.example.projecti3.Model.SingletonRestaurantManager;
+import com.example.projecti3.Model.comeFromForRD;
 import com.example.projecti3.R;
 
 import java.util.ArrayList;
@@ -106,11 +107,14 @@ public class RestaurantDetailsUI extends AppCompatActivity {
         setOnGpsCoord();
 
         Button btn = (Button)findViewById(R.id.backBTNN);
-
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(RestaurantDetailsUI.this, RestaurantList.class));
+                if(comeFromForRD.getInstance().getSearchValue().equals("Map")){
+                    startActivity(new Intent(RestaurantDetailsUI.this, MapsActivity.class));
+                }else{
+                    startActivity(new Intent(RestaurantDetailsUI.this, RestaurantList.class));
+                }
             }
         });
     }

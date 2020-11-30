@@ -24,6 +24,7 @@ import com.example.projecti3.Model.Inspection;
 import com.example.projecti3.Model.PassingSearch;
 import com.example.projecti3.Model.Restaurant;
 import com.example.projecti3.Model.SingletonRestaurantManager;
+import com.example.projecti3.Model.comeFromForRD;
 import com.example.projecti3.R;
 
 // Code found at:
@@ -71,6 +72,7 @@ public class RestaurantList extends AppCompatActivity {
                 (parent,view,position,id)->{
                     Intent intent = RestaurantDetailsUI.makeDetailIntent(RestaurantList.this, position);
                     //Toast.makeText(getApplicationContext(), ""+SingletonRestaurantManager.getInstance().get(position).getFavStatus(), Toast.LENGTH_SHORT).show();
+                    comeFromForRD.getInstance().setSearchValue("List");
                     startActivity(intent);
                 }
         );
