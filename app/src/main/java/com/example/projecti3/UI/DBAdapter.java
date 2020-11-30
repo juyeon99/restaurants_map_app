@@ -36,7 +36,7 @@ public class DBAdapter {
     public static String HAZARD_LEVEL = "level";
     public static String INSP = "insp";
 
-    public static String[] ALL_KEYS = new String[] {KEY_NAME, KEY_TRACKING, KEY_NUM, FAV_STATUS, LATEST, ISSUES, HAZARD_LEVEL, INSP};
+    public static String[] ALL_KEYS = new String[] {KEY_ROWID, KEY_NAME, KEY_TRACKING, KEY_NUM, FAV_STATUS, LATEST, ISSUES, HAZARD_LEVEL, INSP};
 
     public static String DATABASE_TABLE = "favorites";
     public static String DATABASE_NAME = "Restaurants";

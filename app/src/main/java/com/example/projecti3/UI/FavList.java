@@ -24,8 +24,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import static com.example.projecti3.UI.DBAdapter.COL_FAV;
 import static com.example.projecti3.UI.DBAdapter.COL_HAZARD;
-import static com.example.projecti3.UI.DBAdapter.COL_INSP;
 import static com.example.projecti3.UI.DBAdapter.COL_ISSUES;
 import static com.example.projecti3.UI.DBAdapter.COL_LATEST;
 import static com.example.projecti3.UI.DBAdapter.COL_NAME;
@@ -142,7 +142,7 @@ public class FavList extends AppCompatActivity {
         List<String> hazardLev = new ArrayList<>();
         List<Integer> NewLatest = new ArrayList<>();
         List<Integer> issues = new ArrayList<>();
-        List<String> allInsp = new ArrayList<>();
+        List<String> fav = new ArrayList<>();
 
         SingletonRestaurantManager manager = SingletonRestaurantManager.getInstance();
         List<Restaurant> myRestaurants = manager.getAll();
@@ -154,7 +154,7 @@ public class FavList extends AppCompatActivity {
                 NewLatest.add(cursor.getInt(COL_LATEST));
                 hazardLev.add(cursor.getString(COL_HAZARD));
                 issues.add(cursor.getInt(COL_ISSUES));
-                allInsp.add(cursor.getString(COL_INSP));
+                fav.add(cursor.getString(COL_FAV));
 
             } while (cursor.moveToNext());
         }
@@ -195,6 +195,8 @@ public class FavList extends AppCompatActivity {
 
             numIssues = issues.get(k);
 
+            String favStat = fav.get(k);
+
             //helps make the inspection listn in the order from latest to the oldest
             if (orderedList != null) {
                 if (orderedList.equals("Low")) {
@@ -217,7 +219,6 @@ public class FavList extends AppCompatActivity {
             int day1 = cal.get(Calendar.DAY_OF_MONTH);
             String today = "" + year1 * 10000 + month1 * 100 + day1;
 
-
             int recent = NewLatest.get(k);
 
             int year2 = recent / 10000;
@@ -235,7 +236,7 @@ public class FavList extends AppCompatActivity {
                 date = (getMonth(month2) + " " + year2);
             }
 
-            arrayList.add(new FavItem(name, image, numIssues, hazardIcon, hazardLevel, date, SingletonRestaurantManager.getInstance().get(i).getFavStatus()));
+            arrayList.add(new FavItem(name, image, numIssues, hazardIcon, hazardLevel, date, favStat));
             i++;
         }
         favAdapter = new FavAdapter(this, R.layout.fav_layout, arrayList);

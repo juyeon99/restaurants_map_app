@@ -559,6 +559,9 @@ public class MainActivity extends AppCompatActivity {
         }
         closeDB();
 
+        openDB();
+        db.deleteALL();
+
         Log.d("My Activity", "fav size " + favTrackingNum.size());
 
         for(int k = 0; k < favTrackingNum.size(); k++) {
@@ -568,9 +571,8 @@ public class MainActivity extends AppCompatActivity {
                     Log.d("My Activity", "status " + k + " == " + myRestaurants.get(j).getFavStatus());
 
                     openDB();
-                    int row = db.getByTrackingNum(favTrackingNum.get(k));
 
-                    db.updateRow(row, myRestaurants.get(j).getName(), myRestaurants.get(j).getTrackingNum(), j, myRestaurants.get(j).getFavStatus(),
+                    db.insertRow( myRestaurants.get(j).getName(), myRestaurants.get(j).getTrackingNum(), j, myRestaurants.get(j).getFavStatus(),
                             myRestaurants.get(j).getLatestInspectionDate(myRestaurants.get(j).getAllInspection(), myRestaurants.get(j).getTrackingNum()),
                             myRestaurants.get(j).getLatestNumIssues(), myRestaurants.get(j).getLatestHazard(), myRestaurants.get(j).getAllInspection());
 
@@ -645,8 +647,12 @@ public class MainActivity extends AppCompatActivity {
 
 //        alertDialog.dismiss();
 //        alertDialog.cancel();
-        alertD = alert.create();
-        alertD.show();
+        runOnUiThread(new Runnable() {
+            public void run() {
+                alertD = alert.create();
+                alertD.show();
+            }
+        });
     }
 
 
