@@ -87,7 +87,7 @@ public class RestaurantAdapter extends ArrayAdapter<RecentRestaurant> implements
         protected FilterResults performFiltering(CharSequence constraint) {
             String[] sortedInput = constraint.toString().toLowerCase().split(",", -1);
             String name;
-            String favrate;
+            String favrate="0";
             String hazard;
             String greaterOrLess;
             String violation;
@@ -113,15 +113,18 @@ public class RestaurantAdapter extends ArrayAdapter<RecentRestaurant> implements
                  hazard=sortedInput[2].toString();
                  greaterOrLess=sortedInput[3].toString();
                  violation= sortedInput[4].toString();
-                 vioNum=Integer.parseInt(violation);
-
+                 if(!violation.isEmpty()){
+                     vioNum=Integer.parseInt(violation);
+                 }
             }else{
                 name=sortedInput[0].toString();
                 favrate=sortedInput[1].toString();
                 hazard=sortedInput[2].toString();
                 greaterOrLess=sortedInput[3].toString();
                 violation= sortedInput[4].toString();
-                vioNum=Integer.parseInt(violation);
+                if(!violation.isEmpty()){
+                    vioNum=Integer.parseInt(violation);
+                }
             }
             //create a temp restaurant
             List<RecentRestaurant> filteredList = new ArrayList<>();
@@ -132,7 +135,8 @@ public class RestaurantAdapter extends ArrayAdapter<RecentRestaurant> implements
                 //search all the restaurant list
                 //we find the one's name with the same order of inputs
                 for (RecentRestaurant restaurant: objectListAll) {
-                    if (restaurant.getName().toLowerCase().contains(name)&&restaurant.fav=="1") {
+                    if (restaurant.getName().toLowerCase().contains(name)
+                            && restaurant.fav.contains(favrate)) {
                         filteredList.add(restaurant);
                     }
                 }

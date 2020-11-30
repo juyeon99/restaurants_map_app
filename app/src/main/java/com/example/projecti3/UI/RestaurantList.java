@@ -102,8 +102,8 @@ public class RestaurantList extends AppCompatActivity {
             public boolean onQueryTextChange(String newText) {
                 //although in the email, prof Jack said, he will assume to see the result after press enter,
                 //it is nicer to see the changes while user types
-                //passingSearch.setSearchValue(newText);
-                //RestaurantList.this.restaurantAdapter.getFilter().filter(passingSearch.getSearchValue());
+                passingSearch.setSearchValue(newText);
+                RestaurantList.this.restaurantAdapter.getFilter().filter(passingSearch.getSearchValue());
                 return false;
             }
         });
