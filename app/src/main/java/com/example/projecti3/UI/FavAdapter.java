@@ -66,9 +66,7 @@ public class FavAdapter extends ArrayAdapter<FavItem> implements Filterable {
         } else if (getItem(position).getHazardLevel().equals("High")) {
             hazardLevel.setTextColor(ContextCompat.getColor(mContext, R.color.colorDangerRed));
         }
-        if(getItem(position).fav.equals("1")) {
-            fav.setBackgroundResource(R.drawable.fav);
-        }
+
         return convertView;
     }
     //iteration 3

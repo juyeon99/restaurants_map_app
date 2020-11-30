@@ -301,10 +301,10 @@ public class MainActivity extends AppCompatActivity {
             alertD.dismiss();
             alertD.cancel();
         }
-
         if(db != null) {
             closeDB();
-        }        Intent intent = new Intent(MainActivity.this, FavList.class);
+        }
+        Intent intent = new Intent(MainActivity.this, FavList.class);
         startActivity(intent);
         finish();
     }
@@ -563,13 +563,13 @@ public class MainActivity extends AppCompatActivity {
         openDB();
         db.deleteALL();
 
-        Log.d("My Activity", "fav size " + favTrackingNum.size());
+        //Log.d("My Activity", "fav size " + favTrackingNum.size());
 
         for(int k = 0; k < favTrackingNum.size(); k++) {
             for (int j = 0; j < myRestaurants.size(); j++) {
                 if (favTrackingNum.get(k).equals(myRestaurants.get(j).getTrackingNum())) {
                     myRestaurants.get(j).setFavStatus("1");
-                    Log.d("My Activity", "status " + k + " == " + myRestaurants.get(j).getFavStatus());
+                    //Log.d("My Activity", "status " + k + " == " + myRestaurants.get(j).getFavStatus());
 
                     openDB();
 
@@ -577,22 +577,21 @@ public class MainActivity extends AppCompatActivity {
                             myRestaurants.get(j).getLatestInspectionDate(myRestaurants.get(j).getAllInspection(), myRestaurants.get(j).getTrackingNum()),
                             myRestaurants.get(j).getLatestNumIssues(), myRestaurants.get(j).getLatestHazard(), myRestaurants.get(j).getAllInspection());
 
-                    Log.d("My Activity", "row is " +" " + favTrackingNum.get(k));
+                   /* Log.d("My Activity", "row is " +" " + favTrackingNum.get(k));
                     Log.d("My Activity", "info is " + myRestaurants.get(j).getName() + " " + myRestaurants.get(j).getTrackingNum() + " " + j
                             + " " + myRestaurants.get(j).getFavStatus() + " " + myRestaurants.get(j).getLatestInspectionDate(myRestaurants.get(j).getAllInspection(), myRestaurants.get(j).getTrackingNum())
                             + " " + myRestaurants.get(j).getLatestNumIssues() + " " + myRestaurants.get(j).getLatestHazard() + " " + myRestaurants.get(j).getAllInspection());
 
 
-                    Log.d("My Activity", "row updated ");
+                    Log.d("My Activity", "row updated ");*/
 
                     closeDB();
 
                     if (lastTimeLatest.get(k) != myRestaurants.get(j).getLatestInspectionDate(myRestaurants.get(j).getAllInspection(), myRestaurants.get(j).getTrackingNum())) {
-                        Log.d("My Activity", "latest compare " + (lastTimeLatest.get(k)) + " == " + myRestaurants.get(j).getLatestInspectionDate(myRestaurants.get(j).getAllInspection(), myRestaurants.get(j).getTrackingNum()));
-
+                        //Log.d("My Activity", "latest compare " + (lastTimeLatest.get(k)) + " == " + myRestaurants.get(j).getLatestInspectionDate(myRestaurants.get(j).getAllInspection(), myRestaurants.get(j).getTrackingNum()));
                         needsUpdateFav = true;
                     }
-                    Log.d("My Activity", "latest " + myRestaurants.get(j).getLatestInspectionDate(myRestaurants.get(j).getAllInspection(), myRestaurants.get(j).getTrackingNum()));
+                    //Log.d("My Activity", "latest " + myRestaurants.get(j).getLatestInspectionDate(myRestaurants.get(j).getAllInspection(), myRestaurants.get(j).getTrackingNum()));
                 }
             }
         }
@@ -617,18 +616,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialogInterface, int which) {
                 dialogInterface.cancel();
                 dialogInterface.dismiss();
-
-               /* db.deleteALL();
-                for(int i = 0; i < favTrackingNum.size(); i++){
-                    for(int j = 0; j < myRestaurants.size(); j++){
-                        if(myRestaurants.get(j).getTrackingNum().equals(favTrackingNum.get(i))){
-                            db.insertRow(myRestaurants.get(j).getName(), myRestaurants.get(j).getTrackingNum(), j, myRestaurants.get(j).getFavStatus(),
-                                    myRestaurants.get(j).getLatestInspectionDate(myRestaurants.get(j).getAllInspection(), myRestaurants.get(j).getTrackingNum()),
-                                    myRestaurants.get(j).getLatestNumIssues(), myRestaurants.get(j).getLatestHazard(), myRestaurants.get(j).getAllInspection());
-                        }
-                    }
-                }*/
-
                 alertD.dismiss();
                 alertD.cancel();
                 toFavList();
@@ -645,9 +632,6 @@ public class MainActivity extends AppCompatActivity {
                 toMaps();
             }
         });
-
-//        alertDialog.dismiss();
-//        alertDialog.cancel();
         runOnUiThread(new Runnable() {
             public void run() {
                 alertD = alert.create();
@@ -655,7 +639,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
 
     private void requestPermissions() {
         if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
