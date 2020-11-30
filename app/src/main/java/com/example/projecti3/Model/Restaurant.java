@@ -102,12 +102,16 @@ public class Restaurant {
     private int latest = 0;
     private int indexOfLatest = 0;
     private String latestHazard = null;
+    private int latestNumIssues;
+
     public int getLatestInspectionDate(List<Inspection> inspection, String trackingNum) {
         for(int k = 0; k < inspection.size(); k++) {
             if (inspection.get(k).getTrackingNum().equals(trackingNum)) {
                 if (inspection.get(k).getDate() > latest) {
                     this.latest = inspection.get(k).getDate();
                     this.indexOfLatest = k;
+                    this.latestHazard = inspection.get(k).getHazardLevel();
+                    this.latestNumIssues = inspection.get(k).getNumIssues();
                 }
             }
         }
@@ -118,11 +122,12 @@ public class Restaurant {
     public int getIndexOfLatest(){
         return indexOfLatest;
     }
+
     public String getLatestHazard() {
-        return SingletonInspectionManager.getInstance().getHazardLevel(indexOfLatest);
+        return latestHazard;
     }
     public int getLatestNumIssues() {
-        return SingletonInspectionManager.getInstance().getNumIssues(indexOfLatest);
+        return latestNumIssues;
     }
     public List<Inspection> getAllInspectionList() {
         return SingletonInspectionManager.getInstance().getAll();

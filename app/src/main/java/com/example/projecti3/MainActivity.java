@@ -667,9 +667,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(db != null) {
-            closeDB();
-        }
+        closeDB();
         if(alertD != null && alertD.isShowing()){
             alertD.dismiss();
             alertD.cancel();
@@ -679,9 +677,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        if(db != null) {
-            closeDB();
-        }
+        closeDB();
         if(alertD != null && alertD.isShowing()){
             alertD.dismiss();
             alertD.cancel();

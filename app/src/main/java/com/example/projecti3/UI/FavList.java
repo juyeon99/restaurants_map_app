@@ -12,8 +12,6 @@ import android.widget.SearchView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.projecti3.Model.PassingSearch;
-import com.example.projecti3.Model.Restaurant;
-import com.example.projecti3.Model.SingletonRestaurantManager;
 import com.example.projecti3.R;
 
 import java.text.DateFormatSymbols;
@@ -33,7 +31,6 @@ import static com.example.projecti3.UI.DBAdapter.COL_NAME;
 public class FavList extends AppCompatActivity {
     ListView listView;
     FavAdapter favAdapter;
-    FavItem favItem;
 
     Button goToMap;
     Button goToRestList;
@@ -133,7 +130,6 @@ public class FavList extends AppCompatActivity {
         int hazardIcon = 0;
         String hazardLevel = "";
         String date;
-        int i = 0;
 
         db = new DBAdapter(this);
         db.open();
@@ -143,9 +139,6 @@ public class FavList extends AppCompatActivity {
         List<Integer> NewLatest = new ArrayList<>();
         List<Integer> issues = new ArrayList<>();
         List<String> fav = new ArrayList<>();
-
-        SingletonRestaurantManager manager = SingletonRestaurantManager.getInstance();
-        List<Restaurant> myRestaurants = manager.getAll();
 
         Cursor cursor = db.fetch();
         if (cursor.moveToFirst()) {
@@ -158,6 +151,7 @@ public class FavList extends AppCompatActivity {
 
             } while (cursor.moveToNext());
         }
+        cursor.close();
 
         for (int k = 0; k < restName.size(); k++) {
             name = restName.get(k);
@@ -237,7 +231,6 @@ public class FavList extends AppCompatActivity {
             }
 
             arrayList.add(new FavItem(name, image, numIssues, hazardIcon, hazardLevel, date, favStat));
-            i++;
         }
         favAdapter = new FavAdapter(this, R.layout.fav_layout, arrayList);
         listView.setAdapter(favAdapter);
