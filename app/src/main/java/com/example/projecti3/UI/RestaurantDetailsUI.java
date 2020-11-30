@@ -93,6 +93,7 @@ public class RestaurantDetailsUI extends AppCompatActivity {
             }
             else {
                 restaurant.setFavStatus("0");
+                //Log.d("My Activity", "this deleted " + restaurant.getTrackingNum());
                 db.deleteRow(db.getByTrackingNum(restaurant.getTrackingNum()));
                 fav.setBackgroundResource(R.drawable.fav_border);
             }

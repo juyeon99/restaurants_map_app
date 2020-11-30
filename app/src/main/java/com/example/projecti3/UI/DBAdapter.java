@@ -9,6 +9,7 @@ import android.util.Log;
 
 import com.example.projecti3.Model.Inspection;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DBAdapter {
@@ -89,21 +90,25 @@ public class DBAdapter {
 
     public void deleteRow(long rowID){
         String where = KEY_ROWID + "=" + rowID;
+        Log.d("My activity", "row is " + rowID);
         db.delete(DATABASE_TABLE, where, null);
     }
 
     public int getByTrackingNum(String tracking){
-        Cursor c = getALLRows();
-        int i = 0;
+        List<String> dBTrackNum = new ArrayList<>();
+        Cursor c = fetch();
+
         if (c.moveToFirst()){
             do {
-                if(KEY_TRACKING.equals(tracking)){
-                    break;
-                }
-                i++;
+                dBTrackNum.add(c.getString(COL_TRACKING));
             } while (c.moveToNext());
         }
-        return i;
+        for(int i = 0; i < dBTrackNum.size(); i++) {
+            if(dBTrackNum.get(i).equals(tracking)){
+                return i + 1;
+            }
+        }
+        return 0;
     }
 
     public void deleteALL(){
@@ -115,6 +120,8 @@ public class DBAdapter {
             } while (c.moveToNext());
         }
         c.close();
+
+        db.execSQL("DELETE FROM SQLITE_SEQUENCE WHERE NAME = '" + DATABASE_TABLE + "'");
     }
 
     private Cursor getALLRows() {
@@ -171,7 +178,6 @@ public class DBAdapter {
         public static String DATABASE_TABLE = "favorites";
         public static String DATABASE_NAME = "Restaurants";
         public static final String KEY_ROWID = "_id";
-
 
         public static String KEY_NAME = "name";
         public static String KEY_TRACKING = "track";
