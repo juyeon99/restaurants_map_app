@@ -189,9 +189,10 @@ public class MapsActivity extends AppCompatActivity {
                 return false;
             }
         });
-        String constraint="";
+        String constraint = "";
         String[] sortedInput = constraint.toString().split(",", -1);
-        Toast.makeText(getApplicationContext(), ""+sortedInput.length, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getApplicationContext(), ""+sortedInput.length, Toast.LENGTH_SHORT).show();
+
 //        searchView.setQuery(passingSearch.getSearchValue(),false);
 //        if (!passingSearch.getSearchValue().isEmpty()) {
 //            Toast.makeText(getApplicationContext(), "Click the search bar and press enter to show the searched result.", Toast.LENGTH_SHORT).show();
@@ -285,7 +286,7 @@ public class MapsActivity extends AppCompatActivity {
                 //this tag is the index of a shorted restaurant list
                 //gMap.addMarker(options).setTag(i);
 
-                MyItem myItem = new MyItem(res.getLatitude(), res.getLongitude(), res.getName(), snippet,i);
+                MyItem myItem = new MyItem(res.getLatitude(), res.getLongitude(), res.getName(), snippet, i, res.getFavStatus(), res.getLatestHazard(), res.getLatestNumIssues());
                 myItemList.add(myItem);
               // clusterManager.addItem(myItem);
             }
