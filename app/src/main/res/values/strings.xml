@@ -33,6 +33,7 @@
     <string name="followup">Follow-Up</string>
     <string name="numCritFound">Number of critical issues found</string>
     <string name="numNonCritFound">Number of non-critical issue found</string>
+    <string name="clickPeg">Click this peg for more information.</string>
     <string name="addressRecent">Address</string>
     <string name="mostRecent">most recent</string>
     <string name="newUpdate">New Update Available</string>
