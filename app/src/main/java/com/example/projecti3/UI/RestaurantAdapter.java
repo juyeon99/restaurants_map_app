@@ -9,6 +9,7 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -84,6 +85,47 @@ public class RestaurantAdapter extends ArrayAdapter<RecentRestaurant> implements
     Filter filter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
+            String[] sortedInput = constraint.toString().toLowerCase().split(",", -1);
+            String name;
+            String favrate="0";
+            String hazard;
+            String greaterOrLess;
+            String violation;
+            int vioNum;
+            int size=sortedInput.length;
+            if(size==1){
+                 name=sortedInput[0].toString();
+            }else if(size==2){
+                 name=sortedInput[0].toString();
+                 favrate=sortedInput[1].toString();
+            }else if(size==3){
+                 name=sortedInput[0].toString();
+                 favrate=sortedInput[1].toString();
+                 hazard=sortedInput[2].toString();
+            }else if(size==4){
+                 name=sortedInput[0].toString();
+                 favrate=sortedInput[1].toString();
+                 hazard=sortedInput[2].toString();
+                 greaterOrLess=sortedInput[3].toString();
+            }else if(size==5){
+                 name=sortedInput[0].toString();
+                 favrate=sortedInput[1].toString();
+                 hazard=sortedInput[2].toString();
+                 greaterOrLess=sortedInput[3].toString();
+                 violation= sortedInput[4].toString();
+                 if(!violation.isEmpty()){
+                     vioNum=Integer.parseInt(violation);
+                 }
+            }else{
+                name=sortedInput[0].toString();
+                favrate=sortedInput[1].toString();
+                hazard=sortedInput[2].toString();
+                greaterOrLess=sortedInput[3].toString();
+                violation= sortedInput[4].toString();
+                if(!violation.isEmpty()){
+                    vioNum=Integer.parseInt(violation);
+                }
+            }
             //create a temp restaurant
             List<RecentRestaurant> filteredList = new ArrayList<>();
             //when the input is empty, we resee all the restaurants list
@@ -93,7 +135,8 @@ public class RestaurantAdapter extends ArrayAdapter<RecentRestaurant> implements
                 //search all the restaurant list
                 //we find the one's name with the same order of inputs
                 for (RecentRestaurant restaurant: objectListAll) {
-                    if (restaurant.getName().toLowerCase().contains(constraint.toString().toLowerCase())) {
+                    if (restaurant.getName().toLowerCase().contains(name)
+                            && restaurant.fav.contains(favrate)) {
                         filteredList.add(restaurant);
                     }
                 }
