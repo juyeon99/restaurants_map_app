@@ -1,93 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    tools:context=".UI.RestaurantList">
 
-    <ImageView
-        android:id="@+id/icon"
-        android:layout_width="130dp"
-        android:layout_height="130dp" />
+    <ListView
+        android:id="@+id/favListView"
+        android:layout_width="401dp"
+        android:layout_height="584dp"
+        android:paddingBottom="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.891" />
 
-    <TextView
-        android:id="@+id/restaurant_name"
-        android:layout_width="291dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_toRightOf="@+id/icon"
-        android:text="@string/str_restaurant_name"
-        android:textColor="#000000"
-        android:textSize="23sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/recentInspection"
-        android:layout_width="241dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/restaurant_name"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="8dp"
-        android:layout_toRightOf="@+id/icon"
-        android:text="@string/str_recent_inspection_report"
-        android:textAllCaps="false"
-        android:textColor="#364CC8"
-        android:textSize="15sp"
-        android:textStyle="bold|italic" />
-
-    <TextView
-        android:id="@+id/issues_found"
+    <Button
+        android:id="@+id/MapsStart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/recentInspection"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="8dp"
-        android:layout_toRightOf="@+id/icon"
-        android:text="@string/str_num_issues"
-        android:textColor="#3E3C3C"
-        android:textSize="15sp" />
+        android:layout_marginBottom="5dp"
+        android:background="#8BC34A"
+        android:text="@string/return_to_map"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/AllListStart" />
 
-    <ImageView
-        android:id="@+id/hazard_icon"
-        android:layout_below="@+id/issues_found"
-        android:layout_marginLeft="10dp"
-        android:layout_toRightOf="@+id/icon"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="8dp" />
-
-    <TextView
-        android:id="@+id/hazard_level"
+    <Button
+        android:id="@+id/AllListStart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/issues_found"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_toRightOf="@+id/hazard_icon"
-        android:text="@string/str_haz_level"
-        android:textSize="15sp" />
+        android:layout_marginBottom="5dp"
+        android:background="#8BC34A"
+        android:text="Return to List"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/MapsStart"/>
 
-    <TextView
-        android:id="@+id/date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_toRightOf="@+id/icon"
-        android:layout_below="@+id/hazard_icon"
-        android:layout_marginTop="4dp"
-        android:text="@string/str_how_long_ago"
-        android:textColor="#3E3C3C"
-        android:textSize="15sp" />
-
-    <ImageView
-        android:id="@+id/fav_image"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:layout_below="@+id/recentInspection"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
-        android:background="@drawable/fav" />
+    <SearchView
+        android:id="@+id/searchFL"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

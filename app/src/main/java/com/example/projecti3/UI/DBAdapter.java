@@ -7,6 +7,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.example.projecti3.Model.Inspection;
+
+import java.util.List;
+
 public class DBAdapter {
 
     public static String TAG = "DBAdapter";
@@ -15,16 +19,24 @@ public class DBAdapter {
     public static final int COL_ROWID = 0;
 
     public static final int COL_NAME = 1;
-    public static final int COL_NUM = 2;
-    public static final int COL_FAV = 3;
-    public static final int COL_LATEST = 4;
+    public static final int COL_TRACKING = 2;
+    public static final int COL_NUM = 3;
+    public static final int COL_FAV = 4;
+    public static final int COL_LATEST = 5;
+    public static final int COL_ISSUES = 6;
+    public static final int COL_HAZARD = 7;
+    public static final int COL_INSP = 8;
 
     public static String KEY_NAME = "name";
+    public static String KEY_TRACKING = "track";
     public static String KEY_NUM = "position";
     public static String FAV_STATUS = "status";
     public static String LATEST = "latest";
+    public static String ISSUES = "issues";
+    public static String HAZARD_LEVEL = "level";
+    public static String INSP = "insp";
 
-    public static String[] ALL_KEYS = new String[] {KEY_NAME, KEY_NUM, FAV_STATUS, LATEST};
+    public static String[] ALL_KEYS = new String[] {KEY_ROWID, KEY_NAME, KEY_TRACKING, KEY_NUM, FAV_STATUS, LATEST, ISSUES, HAZARD_LEVEL, INSP};
 
     public static String DATABASE_TABLE = "favorites";
     public static String DATABASE_NAME = "Restaurants";
@@ -35,9 +47,13 @@ public class DBAdapter {
             "create table " + DATABASE_TABLE + " ("
                     + KEY_ROWID + " integer primary key autoincrement, "
                     + KEY_NAME + " text not null, "
+                    + KEY_TRACKING + " text not null, "
                     + KEY_NUM + " text not null, "
                     + FAV_STATUS + " int not null, "
-                    + LATEST + " date not null);";
+                    + LATEST + " date not null, "
+                    + ISSUES + " int not null, "
+                    + HAZARD_LEVEL + " level not null, "
+                    + INSP + " insp not null);";
 
     private SQLiteDatabase db;
     private Context context;
@@ -58,13 +74,17 @@ public class DBAdapter {
         helper.close();
     }
 
-    public long insertRow(String Name, int Pos, String status, int LD){
+    public void insertRow(String Name, String trackingNum, int Pos, String status, int LD, int issues, String level, List<Inspection> insp){
         ContentValues initialValues = new ContentValues();
         initialValues.put(KEY_NAME, Name);
+        initialValues.put(KEY_TRACKING, trackingNum);
         initialValues.put(KEY_NUM, Pos);
         initialValues.put(FAV_STATUS, status);
         initialValues.put(LATEST, LD);
-        return db.insert(DATABASE_TABLE, null, initialValues);
+        initialValues.put(ISSUES, issues);
+        initialValues.put(HAZARD_LEVEL, level);
+        initialValues.put(INSP, String.valueOf(insp));
+        db.insert(DATABASE_TABLE, null, initialValues);
     }
 
     public void deleteRow(long rowID){
@@ -72,16 +92,12 @@ public class DBAdapter {
         db.delete(DATABASE_TABLE, where, null);
     }
 
-    public String getFavStatus(){
-        return FAV_STATUS;
-    }
-
-    public int getByName(String name){
+    public int getByTrackingNum(String tracking){
         Cursor c = getALLRows();
         int i = 0;
         if (c.moveToFirst()){
             do {
-                if(KEY_NAME.equals(name)){
+                if(KEY_TRACKING.equals(tracking)){
                     break;
                 }
                 i++;
@@ -113,7 +129,7 @@ public class DBAdapter {
 
     // Get a specific row (by rowId)
     public Cursor getRow(long rowId) {
-        String where = KEY_NUM + "=" + rowId;
+        String where = KEY_ROWID + "=" + rowId;
         Cursor c = 	db.query(true, DATABASE_TABLE, ALL_KEYS,
                 where, null, null, null, null, null);
         if (c != null) {
@@ -122,19 +138,50 @@ public class DBAdapter {
         return c;
     }
 
-    public boolean updateRow(long rowID, String name, int position, String status, int latest){
-        String where = KEY_ROWID + "=" + rowID;
+    public void updateRow(long rowId, String name, String tracking, int position, String status, int latest, int issues, String level, List<Inspection> insp){
+        String where = KEY_ROWID + "=" + rowId;
         ContentValues contentValues = new ContentValues();
         contentValues.put(KEY_NAME, name);
+        contentValues.put(KEY_TRACKING, tracking);
         contentValues.put(KEY_NUM, position);
         contentValues.put(FAV_STATUS, status);
         contentValues.put(LATEST, latest);
+        contentValues.put(ISSUES, issues);
+        contentValues.put(HAZARD_LEVEL, level);
+        contentValues.put(INSP, String.valueOf(insp));
 
-        return db.update(DATABASE_TABLE, contentValues, where, null) != 0;
+        db.update(DATABASE_TABLE, contentValues, where, null);
+    }
+
+    public Cursor fetch() {
+        if(DATABASE_TABLE != null) {
+            Cursor cursor = this.db.query(DatabaseHelper.DATABASE_TABLE, new String[]{DatabaseHelper.KEY_ROWID,
+                    DatabaseHelper.KEY_NAME, DatabaseHelper.KEY_TRACKING, DatabaseHelper.KEY_NUM, DatabaseHelper.FAV_STATUS, DatabaseHelper.LATEST,
+                    DatabaseHelper.ISSUES, DatabaseHelper.HAZARD_LEVEL, DatabaseHelper.INSP}, null, null, null, null, null);
+            if (cursor != null) {
+                cursor.moveToFirst();
+            }
+            return cursor;
+        }
+        return null;
     }
 
     private static class DatabaseHelper extends SQLiteOpenHelper
     {
+        public static String DATABASE_TABLE = "favorites";
+        public static String DATABASE_NAME = "Restaurants";
+        public static final String KEY_ROWID = "_id";
+
+
+        public static String KEY_NAME = "name";
+        public static String KEY_TRACKING = "track";
+        public static String KEY_NUM = "position";
+        public static String FAV_STATUS = "status";
+        public static String LATEST = "latest";
+        public static String ISSUES = "issues";
+        public static String HAZARD_LEVEL = "level";
+        public static String INSP = "insp";
+
         DatabaseHelper(Context context) {
             super(context, DATABASE_NAME, null, DATABASE_VERSION);
         }

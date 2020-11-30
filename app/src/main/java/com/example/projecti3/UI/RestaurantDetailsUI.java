@@ -34,9 +34,6 @@ public class RestaurantDetailsUI extends AppCompatActivity {
     private ListView inspectionList;
     private int index;
     private DBAdapter db;
-    FavItem favItem;
-    ArrayList<DBAdapter> favorites;
-    SingletonRestaurantManager singletonRestaurantManager=SingletonRestaurantManager.getInstance();
     //get the info from the privious activity
     public static Intent makeDetailIntent(Context c, int restaurantIdx){
         Intent intent=new Intent(c, RestaurantDetailsUI.class);
@@ -47,27 +44,7 @@ public class RestaurantDetailsUI extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_restaurant_details_report);
-        //loadData();
         openDB();
-        favItem = new FavItem();
-        favorites = (ArrayList<DBAdapter>) favItem.getAll();
-
-        ImageView fav = (ImageView) findViewById(R.id.FAV);
-
-        fav.setOnClickListener(v -> {
-            if (restaurant.getFavStatus().equals("0")){
-                restaurant.setFavStatus("1");
-                db.insertRow(restaurant.getName(), index, restaurant.getFavStatus(), restaurant.getLatestInspectionDate(restaurant.getAllInspection(), restaurant.getTrackingNum()));
-                fav.setBackgroundResource(R.drawable.fav);
-                singletonRestaurantManager.setFav(index,"1");
-            }
-            else {
-                restaurant.setFavStatus("0");
-                db.deleteRow(db.getByName(restaurant.getName()));
-                fav.setBackgroundResource(R.drawable.fav_border);
-                singletonRestaurantManager.setFav(index,"0");
-            }
-        });
 
         //find where the texts are
         storeUiReferences();
@@ -100,9 +77,26 @@ public class RestaurantDetailsUI extends AppCompatActivity {
                 }
         );
 
+        ImageView fav = (ImageView) findViewById(R.id.FAV);
+
         if(restaurant.getFavStatus().equals("1")){
             fav.setBackgroundResource(R.drawable.fav);
         }
+
+        fav.setOnClickListener(v -> {
+            if (restaurant.getFavStatus().equals("0")){
+                restaurant.setFavStatus("1");
+                db.insertRow(restaurant.getName(), restaurant.getTrackingNum(), index, restaurant.getFavStatus(),
+                        restaurant.getLatestInspectionDate(restaurant.getAllInspection(), restaurant.getTrackingNum()), restaurant.getLatestNumIssues(),
+                        restaurant.getLatestHazard(), restaurant.getAllInspection());
+                fav.setBackgroundResource(R.drawable.fav);
+            }
+            else {
+                restaurant.setFavStatus("0");
+                db.deleteRow(db.getByTrackingNum(restaurant.getTrackingNum()));
+                fav.setBackgroundResource(R.drawable.fav_border);
+            }
+        });
 
         //iteration 2: Back-button behaviour
         //author:tianyu che
@@ -119,8 +113,6 @@ public class RestaurantDetailsUI extends AppCompatActivity {
                 startActivity(new Intent(RestaurantDetailsUI.this, RestaurantList.class));
             }
         });
-
-
     }
     //iteration 2: Back-button behaviour
     private void setOnGpsCoord() {
@@ -139,8 +131,8 @@ public class RestaurantDetailsUI extends AppCompatActivity {
     //iteration 2: Back-button behaviour
     public void onBackPressed() {
         closeDB();
+        startActivity(new Intent(RestaurantDetailsUI.this, RestaurantList.class));
         finish();
-        //saveData();
     }
     private void helperOrdering(List<Inspection> orderedList) {
         Inspection temp;
@@ -165,7 +157,7 @@ public class RestaurantDetailsUI extends AppCompatActivity {
         index = intent.getIntExtra(EXTRA_RESTAURANT_INDEX,-1);
         SingletonRestaurantManager restaurantManager=SingletonRestaurantManager.getInstance();
         List<Restaurant> sortedRestaurantList = restaurantManager.sortAlphabetically();
-        restaurant= restaurantManager.getRestaurantManager().get(index);
+        restaurant= sortedRestaurantList.get(index);
     }
     private void repopulateUi() {
         nameText.setText(restaurant.getName());
@@ -174,46 +166,7 @@ public class RestaurantDetailsUI extends AppCompatActivity {
         String latitude = getApplicationContext().getResources().getString(R.string.latitude);
         gpsText.setText(longitude + ": "+restaurant.getLongitude()+ " " + latitude
                 + ": "+restaurant.getLatitude());
-
     }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        //saveData();
-        closeDB();
-    }
-
-    /*private void saveData() {
-        SharedPreferences preferences = getSharedPreferences("prefs", MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        Gson gson = new Gson();
-        String json = gson.toJson(favorites);
-        editor.putString("list", json);
-        editor.apply();
-    }
-
-    private void loadData(){
-        SharedPreferences preferences = getSharedPreferences("prefs", MODE_PRIVATE);
-        Gson gson = new Gson();
-        String json = preferences.getString("list", null);
-        Type type = new TypeToken<ArrayList<FavItem>>() {}.getType();
-        favorites = gson.fromJson(json, type);
-
-        if(favItem == null){
-            favorites = new ArrayList<DBAdapter>();
-        }
-
-        ImageView fav = (ImageView) findViewById(R.id.FAV);
-
-        if(favorites != null && favorites.size() != 0){
-            for(int j = 0; j <= favorites.size(); j++){
-                if(favorites.get(j).getFavStatus().equals("1")){
-                    fav.setBackgroundResource(R.drawable.fav);
-                }
-            }
-        }
-    }*/
 
     private void openDB() {
         db = new DBAdapter(this);
