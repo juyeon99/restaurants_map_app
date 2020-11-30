@@ -557,6 +557,7 @@ public class MainActivity extends AppCompatActivity {
 
             } while (cursor.moveToNext());
         }
+        cursor.close();
         closeDB();
 
         openDB();
