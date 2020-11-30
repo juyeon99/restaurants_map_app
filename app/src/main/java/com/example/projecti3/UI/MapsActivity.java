@@ -406,6 +406,9 @@ public class MapsActivity extends AppCompatActivity {
                                 //move view to the gps of the clicked restaurant
                                 gMap = googleMap;
                                 gMap.getUiSettings().setZoomControlsEnabled(true);
+                                String name = getApplicationContext().getResources().getString(R.string.name);
+                                String address = getApplicationContext().getResources().getString(R.string.addressRecent);
+                                String clickPeg = getApplicationContext().getResources().getString(R.string.clickPeg);
                                 LatLng currentLatLng = new LatLng(latitude,longitude);
                                 moveCamera(currentLatLng, 20);
                                 Toast.makeText(getApplicationContext(),

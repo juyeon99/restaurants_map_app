@@ -3,6 +3,8 @@ package com.example.projecti3.Model;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.google.gson.Gson;
+
 /**
  *  Saves valeus into shared pref
  */
@@ -31,7 +33,6 @@ public class SaveState {
         editor.putString(key,value);
         editor.apply();
     }
-
     public String restoreData( String key, String defaultVal) {
         if(sp == null || key == null) return defaultVal;
         return sp.getString(key,defaultVal);
