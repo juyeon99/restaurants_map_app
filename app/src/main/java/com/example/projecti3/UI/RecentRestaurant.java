@@ -12,6 +12,7 @@ public class RecentRestaurant {
     String hazardLevel;
     String howLongAgo;
     String fav;
+    String numIssuesString;
 
     public RecentRestaurant(String name, int image, int numIssues, int hazardIcon, String hazardLevel, String howLongAgo,String fav) {
         this.name = name;
@@ -70,6 +71,12 @@ public class RecentRestaurant {
 
     public void setHowLongAgo(String howLongAgo) {
         this.howLongAgo = howLongAgo;
+    }
+    public void setNumIssuesString(){
+        this.numIssuesString=String.valueOf(numIssues);
+    }
+    public String getNumIssuesString(){
+        return numIssuesString;
     }
 
 }
