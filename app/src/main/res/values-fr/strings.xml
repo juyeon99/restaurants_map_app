@@ -46,4 +46,12 @@
     <string name="downloadingData">Téléchargement De Données</string>
     <string name="installingData">Installation Des Données</string>
     <string name="cancelUpdate">Annuler La Mise À Jour</string>
+    <string name="curLocation">Localisation actuelle</string>
+    <string name="currentLocation">C\'est là que vous êtes.</string>
+    <string name="favorite">Favori</string>
+    <string name="none">Aucune</string>
+    <string name="days"> journées</string>
+    <string name="notAvailable">N/A</string>
+    <string name="favsUpdate">Un ou plusieurs de vos restaurants préférés ont un nouvelle Inspection</string>
+    <string name="seeFavs_">Voudrez-vous le voir?</string>
 </resources>
