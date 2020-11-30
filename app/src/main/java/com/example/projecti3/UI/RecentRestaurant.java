@@ -71,4 +71,5 @@ public class RecentRestaurant {
     public void setHowLongAgo(String howLongAgo) {
         this.howLongAgo = howLongAgo;
     }
+
 }

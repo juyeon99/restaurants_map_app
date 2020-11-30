@@ -189,7 +189,9 @@ public class MapsActivity extends AppCompatActivity {
                 return false;
             }
         });
-
+        String constraint="";
+        String[] sortedInput = constraint.toString().split(",", -1);
+        Toast.makeText(getApplicationContext(), ""+sortedInput.length, Toast.LENGTH_SHORT).show();
 //        searchView.setQuery(passingSearch.getSearchValue(),false);
 //        if (!passingSearch.getSearchValue().isEmpty()) {
 //            Toast.makeText(getApplicationContext(), "Click the search bar and press enter to show the searched result.", Toast.LENGTH_SHORT).show();
