@@ -78,6 +78,58 @@ public class MarkerClusterRenderer extends DefaultClusterRenderer<MyItem>{
     Filter filter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
+            String[] sortedInput = constraint.toString().toLowerCase().split(",", -1);
+            String name=null;
+            String favrate="0";
+            String hazard = null;
+            String greaterOrLess=null;
+            String violation=null;
+            boolean isInteger=true;
+            int numVio=0;
+            int size=sortedInput.length;
+            if(size==1){
+                name=sortedInput[0].toString();
+            }else if(size==2){
+                name=sortedInput[0].toString();
+                favrate=sortedInput[1].toString();
+            }else if(size==3){
+                name=sortedInput[0].toString();
+                favrate=sortedInput[1].toString();
+                hazard=sortedInput[2].toString();
+            }else if(size==4){
+                name=sortedInput[0].toString();
+                favrate=sortedInput[1].toString();
+                hazard=sortedInput[2].toString();
+                greaterOrLess=sortedInput[3].toString();
+                try {
+                    numVio= Integer.parseInt(violation);
+                } catch (NumberFormatException e) {
+                    isInteger = false;
+                }
+            }else if(size==5){
+                name=sortedInput[0].toString();
+                favrate=sortedInput[1].toString();
+                hazard=sortedInput[2].toString();
+                greaterOrLess=sortedInput[3].toString();
+                violation= sortedInput[4].toString();
+                try {
+                    numVio= Integer.parseInt(violation);
+                } catch (NumberFormatException e) {
+                    isInteger = false;
+                }
+
+            }else{
+                name=sortedInput[0].toString();
+                favrate=sortedInput[1].toString();
+                hazard=sortedInput[2].toString();
+                greaterOrLess=sortedInput[3].toString();
+                violation= sortedInput[4].toString();
+                try {
+                    numVio= Integer.parseInt(violation);
+                } catch (NumberFormatException e) {
+                    isInteger = false;
+                }
+            }
             //create a temp restaurant
             List<MyItem> filteredList = new ArrayList<>();
             //when the input is empty, we resee all the restaurants list
@@ -92,9 +144,64 @@ public class MarkerClusterRenderer extends DefaultClusterRenderer<MyItem>{
 
                 // for (MyItem myItem: objectList.getAlgorithm().getItems()) {
                 for (MyItem myItem : objectListAll) {
-                    if (myItem.getTitle().toLowerCase().contains(constraint.toString().toLowerCase())) {
-                        filteredList.add(myItem);
+//                    if (myItem.getTitle().toLowerCase().contains(constraint.toString().toLowerCase())) {
+//                        filteredList.add(myItem);
+//                    }
+                    if(size==1){
+                        if (myItem.getTitle().toLowerCase().contains(name)) {
+                            filteredList.add(myItem);
+                        }
+                    }else if(size==2){
+                        if (myItem.getTitle().toLowerCase().contains(name)
+                                && myItem.getFavItem().contains(favrate)) {
+                            filteredList.add(myItem);
+                        }
+                    }else if(size==3){
+                        if (myItem.getTitle().toLowerCase().contains(name)
+                                && myItem.getFavItem().contains(favrate)
+                                && myItem.getHazardLevel().toLowerCase().contains(hazard)) {
+                            filteredList.add(myItem);
+                        }
                     }
+                    //this is a special case
+                    //the user give less or greater
+                    //so we have to look index 4, which is the fifth element as well
+                    else if(size>=4){
+                        //we sepecify, if it is greater or less
+                        //then we have to know if the user put a valid integer
+                        //if not a integer, we give no result, since no element have such number of violations
+                        //if have a valid integer, we specify the restaurant
+                        if(greaterOrLess.contains("<=")){
+                            if(isInteger){
+                                if (myItem.getTitle().toLowerCase().contains(name)
+                                        &&myItem.getFavItem().contains(favrate)
+                                        &&myItem.getHazardLevel().toLowerCase().contains(hazard)
+                                        &&myItem.getNumViolation()<=numVio) {
+                                    filteredList.add(myItem);
+                                }
+                            }
+
+                        }else if(greaterOrLess.contains(">=")){
+                            if(isInteger){
+                                if (myItem.getTitle().toLowerCase().contains(name)
+                                        &&myItem.getFavItem().contains(favrate)
+                                        &&myItem.getHazardLevel().toLowerCase().contains(hazard)
+                                        &&myItem.getNumViolation()>=numVio) {
+                                    filteredList.add(myItem);
+                                }
+                            }
+                        }
+                        //if the user did not put any thing for greater or less
+                        //we generate everything match with the name, favrate and hazard level
+                        else if(greaterOrLess.isEmpty()){
+                            if (myItem.getTitle().toLowerCase().contains(name)
+                                    &&myItem.getFavItem().contains(favrate)
+                                    &&myItem.getHazardLevel().toLowerCase().contains(hazard)) {
+                                filteredList.add(myItem);
+                            }
+                        }
+                    }
+
                 }
             }
             //create the return value
