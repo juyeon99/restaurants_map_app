@@ -15,7 +15,7 @@
     <string name="str_num_issues"># of Issues found</string>
     <string name="str_haz_level">Hazard Level</string>
     <string name="str_how_long_ago">How long ago</string>
-    <string name="str_recent_inspection_report">------Recent Inspection Report------</string>
+    <string name="str_recent_inspection_report">-----Recent Inspection Report-----</string>
     <string name="back">back</string>
     <string name="show_lists">Show Lists</string>
     <string name="hintMapSearch">Enter the name of the restaurant</string>
@@ -45,6 +45,11 @@
     <string name="downloadingData">Downloading Data</string>
     <string name="installingData">Installing Data</string>
     <string name="cancelUpdate">Cancel Update</string>
-    <string name="favsUpdate">One or More of your Favorite Restaurants has a new Inspection</string>
-    <string name="seeFavs_">Would you like to see it?</string>
+    <string name="clickPeg">Click this peg for more information.</string>
+    <string name="curLocation">Current Location</string>
+    <string name="currentLocation">This is where you are.</string>
+    <string name="favorite">Favorite</string>
+    <string name="none">None</string>
+    <string name="days"> days</string>
+    <string name="notAvailable">N/A</string>
 </resources>

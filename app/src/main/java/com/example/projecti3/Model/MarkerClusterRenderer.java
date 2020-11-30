@@ -1,7 +1,9 @@
 package com.example.projecti3.Model;
 
 import android.content.Context;
+import android.view.View;
 import android.widget.Adapter;
+import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
 
@@ -33,23 +35,26 @@ public class MarkerClusterRenderer extends DefaultClusterRenderer<MyItem>{
     //ClusterManager<MyItem> objectListAll;
     List<MyItem> objectListAll;
     ClusterManager<MyItem> objectList;
+    private Context mContext;
+
     public MarkerClusterRenderer(Context context, GoogleMap map, ClusterManager<MyItem> clusterManager) {
         super(context, map, clusterManager);
-         this.objectList=clusterManager;
-         objectListAll=new ArrayList<>();
+         this.mContext = context;
+         this.objectList = clusterManager;
+         objectListAll = new ArrayList<>();
          objectListAll.addAll(objectList.getAlgorithm().getItems());
          //this.objectListAll=clusterManager;
     }
 
     @Override
     protected void onBeforeClusterItemRendered(MyItem item, MarkerOptions options) {
-        if (item.getSnippet().contains("Low")) {
+        if (item.getSnippet().contains(mContext.getString(R.string.lowHazard))) {
             options.icon(BitmapDescriptorFactory.fromResource(R.drawable.green_map_marker));
-        } else if (item.getSnippet().contains("Moderate")) {
+        } else if (item.getSnippet().contains(mContext.getString(R.string.moderateHazard))) {
             options.icon(BitmapDescriptorFactory.fromResource(R.drawable.orange_map_marker));
-        } else if (item.getSnippet().contains("High")){
+        } else if (item.getSnippet().contains(mContext.getString(R.string.highHazard))) {
             options.icon(BitmapDescriptorFactory.fromResource(R.drawable.red_map_marker));
-        }else{
+        } else {
             options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
         }
         options.snippet(item.getSnippet());
@@ -57,7 +62,7 @@ public class MarkerClusterRenderer extends DefaultClusterRenderer<MyItem>{
         super.onBeforeClusterItemRendered(item, options);
     }
 
-    public void show(MyItem clusterItem){
+    public void show(MyItem clusterItem) {
         getMarker(clusterItem).showInfoWindow();
     }
     @Override
@@ -70,22 +75,23 @@ public class MarkerClusterRenderer extends DefaultClusterRenderer<MyItem>{
     public Filter getFilter(){
         return filter;
     }
-    Filter filter=new Filter() {
+    Filter filter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             //create a temp restaurant
-          //  ClusterManager<MyItem> filteredList=new ArrayList<>();
             List<MyItem> filteredList = new ArrayList<>();
-            //when the input is empty, we resee all the resaturants list
+            //when the input is empty, we resee all the restaurants list
             if (constraint == null || constraint.length() == 0) {
-                filteredList.addAll(objectListAll);
-
+                //filteredList.addAll(objectListAll);
+                for (MyItem myItem : objectListAll) {
+                    filteredList.add(myItem);
+                }
             } else {
                 //search all the restaurant list
                 //we find the one's name with the same order of inputs
 
-               // for (MyItem myItem: objectList.getAlgorithm().getItems()) {
-                for (MyItem myItem: objectListAll) {
+                // for (MyItem myItem: objectList.getAlgorithm().getItems()) {
+                for (MyItem myItem : objectListAll) {
                     if (myItem.getTitle().toLowerCase().contains(constraint.toString().toLowerCase())) {
                         filteredList.add(myItem);
                     }
@@ -102,11 +108,9 @@ public class MarkerClusterRenderer extends DefaultClusterRenderer<MyItem>{
             //UI behaviors
             objectList.clearItems();
             //testing
-           // MyItem myItem = new MyItem(49.19206, -122.756256, "what ever", ""+results.values,0);
+            //MyItem myItem = new MyItem(49.19206, -122.756256, "what ever", ""+results.values,0);
             objectList.addItems((Collection<MyItem>) results.values);
-            //objectList.addItems((Collection<MyItem>) results.values);
             objectList.cluster();
         }
     };
-
 }
