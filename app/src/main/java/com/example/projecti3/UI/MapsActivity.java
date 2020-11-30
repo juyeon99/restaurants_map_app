@@ -21,6 +21,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.example.projecti3.Model.PassingSearch;
+import com.example.projecti3.Model.comeFromForRD;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
@@ -306,6 +307,7 @@ public class MapsActivity extends AppCompatActivity {
                     //simple test
                     //Toast.makeText(getApplicationContext(), ""+marker.getTag(), Toast.LENGTH_SHORT).show();
                     Intent intent = RestaurantDetailsUI.makeDetailIntent(MapsActivity.this,index );
+                    comeFromForRD.getInstance().setSearchValue("Map");
                     startActivity(intent);
                 }
             });
@@ -328,6 +330,7 @@ public class MapsActivity extends AppCompatActivity {
                     //simple test
                     //Toast.makeText(getApplicationContext(), ""+marker.getTag(), Toast.LENGTH_SHORT).show();
                     Intent intent = RestaurantDetailsUI.makeDetailIntent(MapsActivity.this,index );
+                    comeFromForRD.getInstance().setSearchValue("Map");
                     startActivity(intent);
                 }
             });
