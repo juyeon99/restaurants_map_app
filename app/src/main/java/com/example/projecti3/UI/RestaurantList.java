@@ -61,6 +61,7 @@ public class RestaurantList extends AppCompatActivity {
     Inspection inspection = new Inspection();
     Button goToMap;
     PassingSearch passingSearch= PassingSearch.getInstance();
+    ArrayList<RecentRestaurant> arrayList = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,7 +71,7 @@ public class RestaurantList extends AppCompatActivity {
         addinglist();
         listView.setOnItemClickListener(
                 (parent,view,position,id)->{
-                    Intent intent = RestaurantDetailsUI.makeDetailIntent(RestaurantList.this, position);
+                    Intent intent = RestaurantDetailsUI.makeDetailIntent(RestaurantList.this,arrayList.get(position).getIndex());
                     //Toast.makeText(getApplicationContext(), ""+SingletonRestaurantManager.getInstance().get(position).getFavStatus(), Toast.LENGTH_SHORT).show();
                     comeFromForRD.getInstance().setSearchValue("List");
                     startActivity(intent);
@@ -144,7 +145,7 @@ public class RestaurantList extends AppCompatActivity {
         Restaurant restaurant = new Restaurant();
         List<Inspection> list;
         list = restaurant.getAllInspectionList();
-        ArrayList<RecentRestaurant> arrayList = new ArrayList<>();
+        arrayList = new ArrayList<>();
         String name;
         int image;
         int numIssues=0;
@@ -229,7 +230,7 @@ public class RestaurantList extends AppCompatActivity {
                 date = (getMonth(month2) + " " + year2);
             }
 
-            arrayList.add(new RecentRestaurant(name, image, numIssues, hazardIcon, hazardLevel, date,SingletonRestaurantManager.getInstance().get(i).getFavStatus()));
+            arrayList.add(new RecentRestaurant(name, image, numIssues, hazardIcon, hazardLevel, date,SingletonRestaurantManager.getInstance().get(i).getFavStatus(),i));
             i++;
         }
         restaurantAdapter = new RestaurantAdapter(this, R.layout.list_row, arrayList);
