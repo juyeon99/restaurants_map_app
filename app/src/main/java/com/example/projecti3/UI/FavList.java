@@ -12,6 +12,7 @@ import android.widget.SearchView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.projecti3.Model.PassingSearch;
+import com.example.projecti3.Model.comeFromForRD;
 import com.example.projecti3.R;
 
 import java.text.DateFormatSymbols;
@@ -51,6 +52,8 @@ public class FavList extends AppCompatActivity {
                 }
         );
 
+
+
         goToMap = (Button) findViewById(R.id.MapsStart);
         goToMap.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,6 +74,7 @@ public class FavList extends AppCompatActivity {
                 closeDB();
                 Intent intent = new Intent(FavList.this, RestaurantList.class);
                 FavList.this.startActivityForResult(intent, 1);
+                comeFromForRD.getInstance().setSearchValue("FavList");
                 //pass the index of current restaurant
                 //intent.putExtra("fromMap:",-1);
             }

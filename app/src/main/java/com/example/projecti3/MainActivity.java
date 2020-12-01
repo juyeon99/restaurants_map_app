@@ -24,9 +24,11 @@ import com.example.projecti3.Model.Restaurant;
 import com.example.projecti3.Model.SaveState;
 import com.example.projecti3.Model.SingletonInspectionManager;
 import com.example.projecti3.Model.SingletonRestaurantManager;
+import com.example.projecti3.Model.comeFromForRD;
 import com.example.projecti3.UI.DBAdapter;
 import com.example.projecti3.UI.FavList;
 import com.example.projecti3.UI.MapsActivity;
+import com.example.projecti3.UI.RestaurantList;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -304,7 +306,8 @@ public class MainActivity extends AppCompatActivity {
         if(db != null) {
             closeDB();
         }
-        Intent intent = new Intent(MainActivity.this, FavList.class);
+        Intent intent = new Intent(MainActivity.this, RestaurantList.class);
+        comeFromForRD.getInstance().setSearchValue("FAV");
         startActivity(intent);
         finish();
     }
