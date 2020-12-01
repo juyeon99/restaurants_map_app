@@ -190,13 +190,13 @@ public class RestaurantList extends AppCompatActivity {
             helperOrdering(orderedList);
             if(orderedList.size()!=0){
                 numIssues = orderedList.get(0).getNumIssues();
-                if (orderedList.get(0).getHazardLevel().equals(getString(R.string.lowHazard))) {
+                if (orderedList.get(0).getHazardLevel().equals("Low")) {
                     hazardLevel = getString(R.string.lowHazard);
                     hazardIcon = R.drawable.greencircle;
-                } else if (orderedList.get(0).getHazardLevel().equals(getString(R.string.moderateHazard))) {
+                } else if (orderedList.get(0).getHazardLevel().equals("Moderate")) {
                     hazardLevel = getString(R.string.moderateHazard);
                     hazardIcon = R.drawable.orangecircle;
-                } else if (orderedList.get(0).getHazardLevel().equals(getString(R.string.highHazard))) {
+                } else if (orderedList.get(0).getHazardLevel().equals("High")) {
                     hazardLevel = getString(R.string.highHazard);
                     hazardIcon = R.drawable.redcircle;
                 }

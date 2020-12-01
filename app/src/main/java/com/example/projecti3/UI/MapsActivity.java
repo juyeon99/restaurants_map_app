@@ -228,19 +228,19 @@ public class MapsActivity extends AppCompatActivity {
                 helperOrdering(orderedList);
                 String level = "";
                 if (orderedList.size() != 0) {
-                    if (orderedList.get(0).getHazardLevel().equals(this.getResources().getString(R.string.lowHazard))) {
+                    if (orderedList.get(0).getHazardLevel().equals("Low")) {
                         options.icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.green_map_marker));
                         level = getApplicationContext().getResources().getString(R.string.lowHazard);
-                    } else if (orderedList.get(0).getHazardLevel().equals(this.getResources().getString(R.string.moderateHazard))) {
+                    } else if (orderedList.get(0).getHazardLevel().equals("Moderate")) {
                         options.icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.orange_map_marker));
                         level = getApplicationContext().getResources().getString(R.string.moderateHazard);
-                    } else if (orderedList.get(0).getHazardLevel().equals(this.getResources().getString(R.string.highHazard))) {
+                    } else if (orderedList.get(0).getHazardLevel().equals("High")) {
                         options.icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.red_map_marker));
                         level = getApplicationContext().getResources().getString(R.string.highHazard);
                     }
                 } else {
                     options.icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.orange_map_marker));
-                    level = getApplicationContext().getResources().getString(R.string.noHazard);;
+                    level = getApplicationContext().getResources().getString(R.string.noHazard);
                 }
 
                 String address = getApplicationContext().getResources().getString(R.string.addressRecent);
