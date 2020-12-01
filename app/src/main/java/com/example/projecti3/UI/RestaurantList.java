@@ -5,12 +5,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SearchView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.projecti3.Model.Inspection;
+import com.example.projecti3.Model.PassingSearch;
+import com.example.projecti3.Model.Restaurant;
+import com.example.projecti3.Model.SingletonRestaurantManager;
+import com.example.projecti3.Model.comeFromForRD;
+import com.example.projecti3.R;
 
 import java.text.DateFormatSymbols;
 import java.text.ParseException;
@@ -19,13 +24,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
-import com.example.projecti3.Model.Inspection;
-import com.example.projecti3.Model.PassingSearch;
-import com.example.projecti3.Model.Restaurant;
-import com.example.projecti3.Model.SingletonRestaurantManager;
-import com.example.projecti3.Model.comeFromForRD;
-import com.example.projecti3.R;
 
 // Code found at:
 // https://www.youtube.com/watch?v=i-TqNzUryn8 reading CSV file
@@ -52,6 +50,8 @@ import com.example.projecti3.R;
  * Displays all the lists of the restaurants in alphabetical order.
  * The most recent inspections of each restaurant would be shown.
  */
+
+// shows when a restaurant is in your favorites
 
 public class RestaurantList extends AppCompatActivity {
 

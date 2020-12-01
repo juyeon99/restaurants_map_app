@@ -25,6 +25,8 @@ import java.util.List;
 //this class is shows the details of a particular restaurant which clicked
 // and a inspection list belongs to the particular restaurant
 //  name,, address,, gps,, a listView of inspection list
+
+// can add the restaurant to your favorites list here
 public class RestaurantDetailsUI extends AppCompatActivity {
     private static final String EXTRA_RESTAURANT_INDEX = "Extra - MRD index";
     //creating attibutes

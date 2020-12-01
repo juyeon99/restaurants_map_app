@@ -12,6 +12,9 @@ import com.example.projecti3.Model.Inspection;
 import java.util.ArrayList;
 import java.util.List;
 
+// SQLite Database
+// used to store/update/change favorite list
+
 public class DBAdapter {
 
     public static String TAG = "DBAdapter";

@@ -48,6 +48,8 @@ import static com.example.projecti3.UI.DBAdapter.COL_TRACKING;
 /**
  * Main activity --> displays welcome screen and then after 3.5 seconds it automatically switches to RestaurantList
  * generates data from csv files and stores them
+ * shows when an update is available
+ * if favorite restaurant got updated it tells you
  */
 
 public class MainActivity extends AppCompatActivity {
