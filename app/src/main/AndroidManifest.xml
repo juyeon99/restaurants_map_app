@@ -25,7 +25,6 @@
         <activity android:name=".UI.RestaurantList"></activity>
         <activity android:name=".UI.RestaurantDetailsUI"></activity>
         <activity android:name=".UI.Display_Inspection"></activity>
-        <activity android:name=".UI.FavList"></activity>
 
         <activity android:name=".MainActivity">
             <intent-filter>

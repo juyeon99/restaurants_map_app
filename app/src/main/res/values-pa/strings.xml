@@ -54,4 +54,5 @@
     <string name="notAvailable">N/A</string>
     <string name="favsUpdate">ਇੱਕ ਜ ਹੋਰ ਦੇ ਆਪਣੇ ਪਸੰਦੀਦਾ ਰੈਸਟੋਰਟ ਇੱਕ ਨਵ ਨਿਰੀਖਣ</string>
     <string name="seeFavs_">ਤੁਹਾਨੂੰ ਵੇਖਣ ਲਈ ਚਾਹੁੰਦੇ ਹੋ ਇਸ ਨੂੰ?</string>
+    <string name="loadingData">ਲੋਡ ਕੀਤਾ ਜਾ ਰਿਹਾ ਡਾਟਾ</string>
 </resources>
