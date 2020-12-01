@@ -14,7 +14,8 @@ public class RecentRestaurant {
     String fav;
     String numIssuesString;
 
-    public RecentRestaurant(String name, int image, int numIssues, int hazardIcon, String hazardLevel, String howLongAgo,String fav) {
+    int index;
+    public RecentRestaurant(String name, int image, int numIssues, int hazardIcon, String hazardLevel, String howLongAgo,String fav,int i) {
         this.name = name;
         this.image = image;
         this.numIssues = numIssues;
@@ -22,8 +23,13 @@ public class RecentRestaurant {
         this.hazardLevel = hazardLevel;
         this.howLongAgo = howLongAgo;
         this.fav=fav;
+        this.index=i;
     }
 
+    public void setIndex(int index){this.index=index;}
+    public int getIndex(){
+        return index;
+    }
     public String getName() {
         return name;
     }
