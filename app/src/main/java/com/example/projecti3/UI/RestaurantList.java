@@ -90,6 +90,7 @@ public class RestaurantList extends AppCompatActivity {
         });
         //iteration 3 search
         //Tutorial from:https://youtu.be/CTvzoVtKoJ8
+
         SearchView searchView = findViewById(R.id.searchRL);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -107,6 +108,10 @@ public class RestaurantList extends AppCompatActivity {
                 return false;
             }
         });
+        if( comeFromForRD.getInstance().getSearchValue().equals("FAV")){
+            searchView.setQuery(",1",false);
+        }
+
         searchView.setQuery(passingSearch.getSearchValue(),false);
         //testing
         //Toast.makeText(getApplicationContext(), ""+passingSearch.getSearchValue(), Toast.LENGTH_SHORT).show();
