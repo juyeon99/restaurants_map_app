@@ -101,6 +101,12 @@ public class MainActivity extends AppCompatActivity {
             handler.postDelayed(this::startNextActivity, TIME_OUT);
 
         }
+        String loadingData = getApplication().getResources().getString(R.string.loadingData);
+        String pleaseWait = getApplicationContext().getResources().getString(R.string.pleaseWait);
+        pD = new ProgressDialog(MainActivity.this);
+        pD.setTitle(loadingData);
+        pD.setMessage( pleaseWait + "...");
+        pD.show();
         //handler.postDelayed(this::checkForUpdate, TIME_OUT);
     }
 
@@ -261,23 +267,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void startNextActivity() {
-        String loadingData = getApplication().getResources().getString(R.string.installingData);
-        String pleaseWait = getApplicationContext().getResources().getString(R.string.pleaseWait);
-        pD = new ProgressDialog(MainActivity.this);
-        pD.setTitle(loadingData);
-        pD.setMessage( pleaseWait + "...");
-        pD.show();
-
         readRestaurantList();
         readInspectionList();
-
-        String loadingData = getApplication().getResources().getString(R.string.loadingData);
-        String pleaseWait = getApplicationContext().getResources().getString(R.string.pleaseWait);
-
-        pD = new ProgressDialog(MainActivity.this);
-        pD.setTitle(loadingData);
-        pD.setMessage( pleaseWait + "...");
-        pD.show();
 
         updateDB();
 
