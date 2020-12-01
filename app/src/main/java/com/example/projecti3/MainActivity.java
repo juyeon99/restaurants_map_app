@@ -48,6 +48,8 @@ import static com.example.projecti3.UI.DBAdapter.COL_TRACKING;
 /**
  * Main activity --> displays welcome screen and then after 3.5 seconds it automatically switches to RestaurantList
  * generates data from csv files and stores them
+ * shows when an update is available
+ * if favorite restaurant got updated it tells you
  */
 
 public class MainActivity extends AppCompatActivity {
@@ -198,7 +200,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void update() {
         String downloadingData = getApplicationContext().getResources().getString(R.string.downloadingData);
-        String installingData = getApplication().getResources().getString(R.string.installingData);
         String pleaseWait = getApplicationContext().getResources().getString(R.string.pleaseWait);
         String cancelUpdate = getApplicationContext().getResources().getString(R.string.cancelUpdate);
         progressDialog = new ProgressDialog(MainActivity.this);
@@ -215,7 +216,6 @@ public class MainActivity extends AppCompatActivity {
                 dr2.cancelDownload();
                 progressDialog.cancel();
                 progressDialog.dismiss();
-                pD.dismiss();
                 counter = 0;
                 timer.cancel();
                 startNextActivity();
@@ -261,6 +261,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void startNextActivity() {
+        String loadingData = getApplication().getResources().getString(R.string.installingData);
+        String pleaseWait = getApplicationContext().getResources().getString(R.string.pleaseWait);
+        pD = new ProgressDialog(MainActivity.this);
+        pD.setTitle(loadingData);
+        pD.setMessage( pleaseWait + "...");
+        pD.show();
+
         readRestaurantList();
         readInspectionList();
 

@@ -91,8 +91,6 @@ public class MapsActivity extends AppCompatActivity {
     List<Restaurant> sortedRestaurantList;
     PassingSearch passingSearch = PassingSearch.getInstance();
 
-    Button btnFav, btnLow, btnModerate, btnHigh;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -117,11 +115,6 @@ public class MapsActivity extends AppCompatActivity {
                 MapsActivity.this.startActivityForResult(intent,1);
             }
         });
-
-        btnFav = (Button) findViewById(R.id.btnFav);
-        btnLow = (Button) findViewById(R.id.btnLow);
-        btnModerate = (Button) findViewById(R.id.btnModerate);
-        btnHigh = (Button) findViewById(R.id.btnHigh);
 
         for (Restaurant res : SingletonRestaurantManager.getInstance()) {
             restaurantArrayList.add(res);
@@ -151,18 +144,6 @@ public class MapsActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query){
-                if (query.isEmpty()) {
-                    btnFav.setVisibility(View.INVISIBLE);
-                    btnLow.setVisibility(View.INVISIBLE);
-                    btnModerate.setVisibility(View.INVISIBLE);
-                    btnHigh.setVisibility(View.INVISIBLE);
-                } else {
-                    btnFav.setVisibility(View.VISIBLE);
-                    btnLow.setVisibility(View.VISIBLE);
-                    btnModerate.setVisibility(View.VISIBLE);
-                    btnHigh.setVisibility(View.VISIBLE);
-                }
-
                 passingSearch.setSearchValue(query);
                 MapsActivity.this.renderer.getFilter().filter(passingSearch.getSearchValue());
                 return false;
@@ -172,26 +153,15 @@ public class MapsActivity extends AppCompatActivity {
             public boolean onQueryTextChange(String newText) {
                 //although in the email, prof Jack said, he will assume to see the result after press enter,
                 //it is nicer to see the changes while user types
-                if (newText.isEmpty()) {
-                    btnFav.setVisibility(View.INVISIBLE);
-                    btnLow.setVisibility(View.INVISIBLE);
-                    btnModerate.setVisibility(View.INVISIBLE);
-                    btnHigh.setVisibility(View.INVISIBLE);
-                } else {
-                    btnFav.setVisibility(View.VISIBLE);
-                    btnLow.setVisibility(View.VISIBLE);
-                    btnModerate.setVisibility(View.VISIBLE);
-                    btnHigh.setVisibility(View.VISIBLE);
-                }
-
                 passingSearch.setSearchValue(newText);
                 MapsActivity.this.renderer.getFilter().filter(passingSearch.getSearchValue());
                 return false;
             }
         });
-        String constraint="";
+        String constraint = "";
         String[] sortedInput = constraint.toString().split(",", -1);
-        Toast.makeText(getApplicationContext(), ""+sortedInput.length, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getApplicationContext(), ""+sortedInput.length, Toast.LENGTH_SHORT).show();
+
 //        searchView.setQuery(passingSearch.getSearchValue(),false);
 //        if (!passingSearch.getSearchValue().isEmpty()) {
 //            Toast.makeText(getApplicationContext(), "Click the search bar and press enter to show the searched result.", Toast.LENGTH_SHORT).show();
@@ -285,7 +255,7 @@ public class MapsActivity extends AppCompatActivity {
                 //this tag is the index of a shorted restaurant list
                 //gMap.addMarker(options).setTag(i);
 
-                MyItem myItem = new MyItem(res.getLatitude(), res.getLongitude(), res.getName(), snippet,i);
+                MyItem myItem = new MyItem(res.getLatitude(), res.getLongitude(), res.getName(), snippet, i, res.getFavStatus(), res.getLatestHazard(), res.getLatestNumIssues());
                 myItemList.add(myItem);
               // clusterManager.addItem(myItem);
             }

@@ -1,0 +1,21 @@
+Group 1
+
+Iteration 1 Scrum roles
+1. Scrum Master - Anmol Sekhon (ass53)
+2. Product Owner - Juyeon Hong (juyeonh)
+3. Repository Manager - Tianyu Che (tianyuc)
+4. Team Member - Elaine Abraham (eabraham)
+
+
+Iteration 2 Scrum Roles
+1. Scrum Master - Tianyu Che (tianyuc)
+2. Product Owner - Elaine Abraham (eabraham)
+3. Repository Manager - Juyeon Hong (juyeonh)
+4. Team Member - Anmol Sekhon (ass53)
+
+
+Iteration 3 Scrum Roles
+1. Scrum Master - Elaine Abraham (eabraham)
+2. Product Owner - Tianyu Che (tianyuc)
+3. Repository Manager - Anmol Sekhon (ass53)
+4. Team Member - Juyeon Hong (juyeonh)
