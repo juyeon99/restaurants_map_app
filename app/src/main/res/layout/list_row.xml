@@ -82,12 +82,12 @@
 
     <ImageView
         android:id="@+id/favrate"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="36dp"
+        android:layout_height="34dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="106dp"
-        android:layout_marginEnd="6dp"
+        android:layout_marginTop="54dp"
+        android:layout_marginEnd="-2dp"
         android:background="@drawable/fav_border" />
 
 </RelativeLayout>
